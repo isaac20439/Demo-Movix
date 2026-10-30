@@ -1,0 +1,89 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "codigo": "PRUEBA-1",
+    "nombre": "Prueba 1 oeste a este",
+    "empresa": "DATOS DE PRUEBA"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -74.83,
+      10.99
+     ],
+     [
+      -74.78,
+      10.99
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "codigo": "PRUEBA-2",
+    "nombre": "Prueba 2 sur a norte",
+    "empresa": "DATOS DE PRUEBA"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -74.8,
+      10.96
+     ],
+     [
+      -74.8,
+      11.01
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "codigo": "PRUEBA-3",
+    "nombre": "Prueba 3 este a oeste",
+    "empresa": "DATOS DE PRUEBA"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -74.78,
+      10.99
+     ],
+     [
+      -74.83,
+      10.99
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "codigo": "PRUEBA-4",
+    "nombre": "Prueba 4 lejana",
+    "empresa": "DATOS DE PRUEBA"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -74.9,
+      10.9
+     ],
+     [
+      -74.86,
+      10.9
+     ]
+    ]
+   }
+  }
+ ]
+}
