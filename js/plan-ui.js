@@ -81,7 +81,8 @@
     redraw(); if (S.from && S.to) runPlan(); else msg('Falta el ' + (S.from ? 'destino' : 'origen') + '. Escribe un lugar, usa el GPS o mantén presionado el mapa.');
   }
   function redraw() { clearFg(); markPoints(); const pts = [S.from, S.to].filter(Boolean).map(p => [p.lat, p.lng]); if (pts.length === 1 && M.kind === 'leaflet') window.movixMap.setView(pts[0], 15); else if (pts.length === 2 && !S.res) fit(pts); }
-  function msg(t, err) { const r = $('plan-results'); if (!r) return; r.innerHTML = t ? `<div class="banner${err ? ' error' : ''}" style="margin:0 0 10px">${t}</div>` : ''; $('sheet').classList.toggle('planning', !!t); }
+  function howto() { return '<div class="howto" style="background:var(--blanco);border:1px solid var(--gris);border-radius:15px;padding:14px;margin:0 0 12px"><b>Cómo planear tu viaje</b><ol><li>Elige tu <b>origen</b>: escribe un lugar, usa el GPS (⌖) o mantén presionado el mapa.</li><li>Elige tu <b>destino</b> de la misma forma.</li><li>Pulsa <b>Buscar rutas</b> y toca una opción para verla en el mapa.</li></ol><p class="muted" style="margin:8px 0 0">Solo usa trazados oficiales del AMB. Los puntos de abordaje no están verificados.</p></div>'; }
+  function msg(t, err) { const r = $('plan-results'); if (!r) return; r.innerHTML = t ? `<div class="banner${err ? ' error' : ''}" style="margin:0 0 10px">${t}</div>` : howto(); $('sheet').classList.toggle('planning', !!t); }
   async function nominatim(q) {
     const c = new AbortController(), t = setTimeout(() => c.abort(), 9000);
     try {
@@ -134,48 +135,30 @@
     const r = $('plan-results'), test = S.test ? '<div class="banner error" style="margin:0 0 10px"><b>DATOS DE PRUEBA.</b> Estas rutas no existen.</div>' : '';
     const D = res.direct, T = res.transfers;
     let h = test + `<div class="section" style="margin-top:0">${D.length ? D.length + (D.length === 1 ? ' bus directo' : ' buses directos') : 'Sin bus directo'}</div>`;
-    h += D.map((x, i) => `<button class="opt" data-k="d${i}"><div class="item-main">${legHtml(x.path)}<span class="walk">Camina ${fmt(x.walkO)} · bus ~${fmt(x.ride)} · camina ${fmt(x.walkD)}</span></div><span class="chev">›</span></button>`).join('');
+    h += D.map((x, i) => `<button class="opt" data-k="d${i}"><div class="item-main">${legHtml(x.path)}<span class="walk">Camina ${fmt(x.walkO)} · viaja ~${fmt(x.ride)} · camina ${fmt(x.walkD)}</span></div><span class="chev">›</span></button>`).join('');
     if (!D.length) h += '<p class="muted">' + (!res.nearO ? 'Ningún trazado publicado pasa a menos de ' + fmt(res.opts.walk) + ' de tu <b>origen</b>.' : !res.nearD ? 'Ningún trazado publicado pasa a menos de ' + fmt(res.opts.walk) + ' de tu <b>destino</b>.' : 'Hay ' + res.nearO + ' trazados cerca del origen y ' + res.nearD + ' cerca del destino, pero ninguno los une en su sentido de circulación.') + ' Prueba mover algún punto.</p>';
-    const tr = T.map((x, i) => `<button class="opt" data-k="t${i}"><div class="item-main">${legHtml(x.a.path)}<span>luego</span>${legHtml(x.b.path)}<span class="walk">Camina ${fmt(x.walkO)} · conexión a pie ${fmt(x.walkT)} · camina ${fmt(x.walkD)}</span></div><span class="chev">›</span></button>`).join('');
+    const tr = T.map((x, i) => `<button class="opt" data-k="t${i}"><div class="item-main">${legHtml(x.a.path)}<span>luego</span>${legHtml(x.b.path)}<span class="walk">Camina ${fmt(x.walkO)} · transbordo a ${fmt(x.walkT)} · camina ${fmt(x.walkD)}</span></div><span class="chev">›</span></button>`).join('');
     if (!T.length) h += '<div class="section">Sin opciones con transbordo</div>';
     else if (!D.length) h += `<div class="section">Con 1 transbordo</div>${tr}`;
     else h += `<details class="more-opts"><summary>Ver ${T.length} ${T.length === 1 ? 'opción' : 'opciones'} con 1 transbordo</summary>${tr}</details>`;
-    h += '<p class="muted">Distancias en línea recta. Cada trazado es el circuito (ida y vuelta) del KMZ oficial del AMB, que puede no ser la versión operativa más reciente, y hay ' + S.routes.length + ' trazados publicados. Los puntos de abordaje y descenso son sugerencias calculadas sobre el trazado publicado; no son paraderos oficiales ni garantizan que esté permitido detenerse allí. Confirma las condiciones y normas de parada en la vía. Sin tiempos ni posición de buses.</p>';
+    h += '<p class="muted">Distancias en línea recta. Cada trazado es el circuito (ida y vuelta) del KMZ oficial del AMB, que puede no ser la versión operativa más reciente, y hay ' + S.routes.length + ' trazados publicados. El “punto de abordaje” es el punto más cercano del trazado, <b>no un paradero verificado</b>: confirma el lado de la vía y la parada en la calle. Sin tiempos ni posición de buses.</p>';
     r.innerHTML = h; $('sheet').classList.add('planning'); $('trip').classList.add('compact'); r.scrollIntoView?.({ block: 'nearest' });
     if (D[0]) show('d0'); else if (T[0]) show('t0'); else fit([[S.from.lat, S.from.lng], [S.to.lat, S.to.lng]]);
   }
   function show(k) {
     const res = S.res, i = +k.slice(1), isD = k[0] === 'd', x = isD ? res.direct[i] : res.transfers[i];
     $('plan-results').querySelectorAll('.opt').forEach(b => b.classList.toggle('on', b.dataset.k === k));
-    const legs = isD ? [[x.path, x.sO, x.sD, '#91452F']] : [[x.a.path, x.a.s0, x.a.s1, '#91452F'], [x.b.path, x.b.s0, x.b.s1, '#245C4D']];
-    const slices = legs.map(l => P.slice(l[0], l[1], l[2]));
-    const ll = o => P.toLL(o.x, o.y);
-    const board = isD ? ll(x.board) : ll(x.a.board);
-    const alight = isD ? ll(x.alight) : ll(x.b.alight);
-    const all = [[S.from.lat, S.from.lng], [S.to.lat, S.to.lng]].concat(...slices, [board], [alight]);
+    const legs = isD ? [[x.path, x.sO, x.sD, '#B5654A']] : [[x.a.path, x.a.s0, x.a.s1, '#B5654A'], [x.b.path, x.b.s0, x.b.s1, '#6E9B8C']];
+    const slices = legs.map(l => P.slice(l[0], l[1], l[2])), all = [[S.from.lat, S.from.lng], [S.to.lat, S.to.lng]].concat(...slices);
     if (M.kind === 'svg') fit(all);
     clearFg();
-    /* Caminatas: discontinuas. Transporte: continuas y resaltadas. */
-    if (isD) {
-      line([[S.from.lat,S.from.lng], board], { color:'#245C4D', w:4, dash:'8 8', op:.95 });
-      line(slices[0], { color:'#FFFFFF', w:10, op:.95 });
-      line(slices[0], { color:legs[0][3], w:6, op:1 });
-      line([alight,[S.to.lat,S.to.lng]], { color:'#245C4D', w:4, dash:'8 8', op:.95 });
-      dot(board[0],board[1],{color:'#D9A24B',r:8,label:'Abordaje sugerido'});
-      dot(alight[0],alight[1],{color:'#245C4D',r:8,label:'Descenso sugerido'});
-    } else {
-      const transfer = ll(x.a.leave), board2 = ll(x.b.board);
-      line([[S.from.lat,S.from.lng],board],{color:'#245C4D',w:4,dash:'8 8',op:.95});
-      slices.forEach((seg,n)=>{line(seg,{color:'#FFFFFF',w:10,op:.95});line(seg,{color:legs[n][3],w:6,op:1});});
-      line([transfer,board2],{color:'#245C4D',w:4,dash:'8 8',op:.95});
-      line([alight,[S.to.lat,S.to.lng]],{color:'#245C4D',w:4,dash:'8 8',op:.95});
-      dot(board[0],board[1],{color:'#D9A24B',r:8,label:'Abordaje sugerido'});
-      dot(transfer[0],transfer[1],{color:'#2E2A26',r:8,label:'Conexión / transbordo'});
-      dot(board2[0],board2[1],{color:'#D9A24B',r:8,label:'Segundo abordaje sugerido'});
-      dot(alight[0],alight[1],{color:'#245C4D',r:8,label:'Descenso sugerido'});
-    }
-    markPoints();
-    if (M.kind === 'leaflet') fit(all);
+    legs.forEach((l, j) => { line(P.slice(l[0], 0, l[0].length), { color: l[3], w: 2, op: .3 }); line(slices[j], { color: l[3], w: 6 }); });
+    const ll = o => P.toLL(o.x, o.y);
+    if (isD) { const a = ll(x.board), b = ll(x.alight);
+      dot(a[0], a[1], { color: '#D9A24B', r: 7, label: 'Sube aquí (más cercano del trazado)' }); dot(b[0], b[1], { color: '#6E9B8C', r: 7, label: 'Baja aquí' }); }
+    else { const a = ll(x.a.board), t = ll(x.a.leave), b = ll(x.b.alight);
+      dot(a[0], a[1], { color: '#D9A24B', r: 7, label: 'Sube aquí' }); dot(t[0], t[1], { color: '#2E2A26', r: 7, label: 'Transbordo' }); dot(b[0], b[1], { color: '#6E9B8C', r: 7, label: 'Baja aquí' }); }
+    markPoints(); if (M.kind === 'leaflet') fit(all);
   }
   $('plan-results')?.addEventListener('click', e => { const b = e.target.closest('.opt'); if (b) show(b.dataset.k); });
 
@@ -235,5 +218,6 @@
     redraw(); runPlan();
   });
 
-  mapInit(); companies(); loadGeo().then(() => { if (S.status !== 'ok') geoBadge(); });
+  window.MovixGeo = { latlngs: id => { const q = S.paths && !S.test && S.paths.find(x => P.normId(x.route.id) === P.normId(id)); return q ? P.slice(q, 0, q.length) : null; } };
+  msg(''); mapInit(); companies(); loadGeo().then(() => { if (S.status !== 'ok') geoBadge(); });
 })();

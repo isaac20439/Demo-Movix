@@ -1,4 +1,4 @@
-# DEMO_MOVIX — Movix PWA
+# Movix PWA — datos oficiales
 
 ## Qué contiene
 
@@ -6,9 +6,7 @@
 - Rutas alimentadoras y destinos publicados por Transmetro.
 - Búsqueda por código, operador, sistema, denominación publicada, barrio o lugar conocido; si no hay coincidencia local, intenta geocodificar la dirección con Nominatim/OpenStreetMap.
 - GPS únicamente del usuario, reporte local y funcionamiento PWA heredados del prototipo.
-- Enlace a la fuente oficial cuando el trazado no está publicado en un formato utilizable por Movix.
-- Planificación con 79 geometrías oficiales disponibles; la cobertura es parcial y no se inventan las rutas restantes.
-- Puntos de abordaje/descenso sugeridos sobre el trazado, no paraderos oficiales. La posibilidad de detenerse depende de las normas y condiciones de la vía.
+- Enlace a la fuente oficial cuando el trazado o los paraderos no están publicados en un formato utilizable por Movix.
 
 No se dibujan rutas inventadas, no se muestran tiempos de llegada calculados y no se rastrean buses. Las fotos TPC genéricas están rotuladas como referencia y no prueban la identidad de una empresa.
 
@@ -61,12 +59,3 @@ git push -u origin main
 ```
 
 Si GitHub muestra un error de autenticación, inicia sesión con GitHub Desktop o configura una clave SSH/token; no pegues tokens dentro de los archivos del proyecto.
-
-
-## Interfaz DEMO_MOVIX
-
-- Buscador de origen/destino compacto y adaptable a móvil, tablet y escritorio.
-- Mapa con mayor protagonismo y panel de resultados reducido en móvil.
-- Tramos en bus con línea continua; caminatas y conexiones a pie con línea discontinua.
-- Abordajes y descensos se muestran como sugerencias geométricas, nunca como paraderos verificados ni como garantía de parada permitida.
-- Colores de texto y controles ajustados para mejorar contraste. La conformidad WCAG 2.2 AA completa requiere auditoría visual y pruebas en dispositivos reales.
