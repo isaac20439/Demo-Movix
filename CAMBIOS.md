@@ -65,3 +65,22 @@
 - Transmetro no tiene trazados cargados.
 - El AMB no publica una licencia de datos explícita en los KMZ: citar al AMB y verificar condiciones antes de redistribuir o usar comercialmente.
 - Rendimiento medido en Node: ~150 ms por consulta (máx. 480 ms); en un celular será mayor.
+
+
+## DEMO_MOVIX — mejoras de usabilidad y planificación
+
+- Se conservó el buscador de origen y destino, pero se compactó y se hizo adaptable a móvil, pantallas pequeñas y escritorio.
+- Se dio más espacio al mapa, se redujo el panel inferior en móvil y se ajustaron márgenes/controles para evitar solapamientos.
+- Se ajustaron tonos de terracota y salvia usados en texto y controles para mejorar legibilidad; esto es una mejora dirigida a WCAG 2.2 AA, no una certificación de conformidad completa.
+- Se mantuvieron las 79 geometrías `LineString` incluidas en `data/rutas_amb.geojson`.
+- Los recorridos en bus se dibujan con línea continua resaltada y los tramos a pie (origen-abordaje, conexión y descenso-destino) con línea discontinua.
+- Los puntos de abordaje y descenso se describen como sugerencias calculadas sobre geometrías; no se presentan como paraderos oficiales ni garantizan que esté permitido detenerse en ese lugar.
+- Se conserva el límite de cobertura: el catálogo incluye 149 registros y el GeoJSON contiene 79 trazados; no se inventan las geometrías restantes.
+- Se actualizó el caché del service worker para evitar que el navegador conserve la versión anterior e incluir el GeoJSON.
+
+### Pruebas ejecutadas para DEMO_MOVIX
+
+- `node verify.mjs`: `MOVIX_VERIFY_OK` (149 registros catalogados; 79 geometrías GeoJSON presentes).
+- `node --test tests/planner.test.mjs`: 1 suite aprobada.
+- Validación JSON del GeoJSON: 79 features con geometrías `LineString`.
+- No se ejecutó una prueba visual en navegador ni una auditoría automatizada WCAG; se recomienda comprobar la interfaz en un teléfono real y varios anchos de pantalla antes de reemplazar la publicación.
