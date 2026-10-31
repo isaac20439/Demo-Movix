@@ -75,3 +75,14 @@
 - Botones flotantes con texto («Mi ubicación», «Reportar») y logotipo sobre fondo claro.
 - Se quitó el marcador azul fijo del centro de la ciudad y el marcador falso del mapa de detalle: ahora la ficha dibuja el trazado oficial si existe.
 - Panel lateral en computador: instrucciones de uso y altura completa; se quitó la foto decorativa del mapa.
+
+## Revisión del instructor, segunda ronda — 30 de octubre de 2026
+
+- Se eliminó el concepto de «paraderos» de la interfaz: se puede abordar en cualquier punto del recorrido (en un lugar seguro). «Sube aquí» es el punto del recorrido más cercano al usuario. Los reportes ofrecen «Bus no pasó» en vez de «Paradero dañado».
+- La caminata se dibuja con línea discontinua y el recorrido del bus con línea continua (en el mapa y en la ficha).
+- Los resultados se pueden ocultar y mostrar (botón «Ocultar/Mostrar» y barra superior de la hoja).
+- Al tocar un resultado se despliega la información de esa ruta (cómo reconocerla, sectores) con el botón «Ver información de la ruta».
+- La ficha de ruta se rehízo: mapa con el recorrido COMPLETO (circuito ida y vuelta), la caminata y el origen/destino cuando vienes de una búsqueda; secciones plegables para evitar páginas largas.
+- Más: las secciones son plegables.
+- Emparejamiento de códigos corregido: rutas del catálogo con sufijo (p. ej. «C12-4169 A») ahora encuentran su trazado («C12-4169») y su nombre publicado.
+- Contraste revisado también en la ficha: 0 textos bajo 4,5:1.
