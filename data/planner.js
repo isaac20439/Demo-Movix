@@ -3,13 +3,14 @@
    así que el recorrido de subida a bajada puede cruzar el cierre del circuito.
    No inventa paraderos: el "punto de abordaje" es el punto MÁS CERCANO DEL TRAZADO, no un paradero verificado.
    Distancias en línea recta (m). No calcula tiempos ni posiciones de buses.
-   Orden: menor "costo" = 3 × metros a pie + metros en bus. */
+   Orden: menor "costo" = 6 × metros a pie + metros en bus (se prioriza caminar poco).
+   Si no hay resultados a 600 m a pie, amplía la búsqueda a 1000 y 1500 m. */
 (function (root) {
   'use strict';
   const LNG0 = -74.8, LAT0 = 10.97, KX = 111320 * Math.cos(LAT0 * Math.PI / 180), KY = 110540;
   const toXY = (lat, lng) => [(lng - LNG0) * KX, (lat - LAT0) * KY];
   const toLL = (x, y) => [y / KY + LAT0, x / KX + LNG0];
-  const DEFAULTS = { walk: 600, minRide: 250, transfer: 200, step: 120, maxTransfers: 12, walkWeight: 3, closeTol: 300 };
+  const DEFAULTS = { walk: 600, minRide: 250, transfer: 200, step: 120, maxTransfers: 12, walkWeight: 6, closeTol: 300, rideFactor: 4, rideSlack: 3000, walkLadder: [600, 1000, 1500] };
   const normId = s => String(s == null ? '' : s).toUpperCase().replace(/[^A-Z0-9]/g, '');
 
   function pick(props, keys) {
@@ -77,12 +78,12 @@
   const keep = (map, key, item) => { if (!map.has(key) || item.cost < map.get(key).cost) map.set(key, item); };
 
   function direct(paths, O, D, o, C) {
-    const m = new Map();
+    const m = new Map(), st = Math.hypot(O[0] - D[0], O[1] - D[1]), maxRide = o.rideFactor * st + o.rideSlack;
     for (const p of paths) {
       const co = C.o.get(p), cd = C.d.get(p); if (!co.length || !cd.length) continue;
       let b = null;
       for (const a of co) for (const c of cd) {
-        const ride = fwd(p, a.s, c.s); if (ride < o.minRide) continue;
+        const ride = fwd(p, a.s, c.s); if (ride < o.minRide || ride > maxRide) continue;
         const cost = o.walkWeight * (a.d + c.d) + ride; if (!b || cost < b.cost) b = { cost, a, c, ride };
       }
       if (b) keep(m, p.route.id, { type: 'direct', path: p, walkO: b.a.d, walkD: b.c.d, sO: b.a.s, sD: b.c.s, ride: b.ride, board: b.a, alight: b.c, cost: b.cost });
@@ -91,7 +92,7 @@
   }
 
   function transfers(paths, O, D, o, C) {
-    const A = [], B = [];
+    const A = [], B = [], maxRide = o.rideFactor * Math.hypot(O[0] - D[0], O[1] - D[1]) + o.rideSlack;
     for (const p of paths) {
       const a = best(C.o.get(p)); if (a) A.push({ p, a });
       const b = best(C.d.get(p)); if (b) B.push({ p, b });
@@ -114,7 +115,7 @@
         const cx = Math.floor(q.x / cell), cy = Math.floor(q.y / cell);
         for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++)
           for (const r of (g.get((cx + dx) * 100003 + (cy + dy)) || [])) {
-            const rB = fwd(b.p, r.s, b.b.s); if (rB < o.minRide) continue;
+            const rB = fwd(b.p, r.s, b.b.s); if (rB < o.minRide || rA + rB > maxRide) continue;
             const d = Math.hypot(q.x - r.x, q.y - r.y); if (d > o.transfer) continue;
             const cost = o.walkWeight * (a.a.d + b.b.d + d) + rA + rB;
             if (!bt || cost < bt.cost) bt = { cost, d, qa: q, qb: r, rA, rB };
@@ -127,10 +128,16 @@
   }
 
   function plan(paths, from, to, opts) {
-    const o = Object.assign({}, DEFAULTS, opts), O = toXY(from.lat, from.lng), D = toXY(to.lat, to.lng);
-    const C = { o: new Map(), d: new Map() };
-    for (const p of paths) { C.o.set(p, segCands(p, O, o.walk)); C.d.set(p, segCands(p, D, o.walk)); }
-    return { direct: direct(paths, O, D, o, C), transfers: transfers(paths, O, D, o, C), opts: o, nearO: paths.filter(p => C.o.get(p).length).length, nearD: paths.filter(p => C.d.get(p).length).length, straight: Math.hypot(O[0] - D[0], O[1] - D[1]) };
+    const base = Object.assign({}, DEFAULTS, opts), O = toXY(from.lat, from.lng), D = toXY(to.lat, to.lng);
+    const ladder = opts && opts.walk ? [opts.walk] : base.walkLadder; let out = null;
+    for (const w of ladder) {
+      const o = Object.assign({}, base, { walk: w }), C = { o: new Map(), d: new Map() };
+      for (const p of paths) { C.o.set(p, segCands(p, O, o.walk)); C.d.set(p, segCands(p, D, o.walk)); }
+      out = { direct: direct(paths, O, D, o, C), transfers: transfers(paths, O, D, o, C), opts: o,
+        nearO: paths.filter(p => C.o.get(p).length).length, nearD: paths.filter(p => C.d.get(p).length).length, straight: Math.hypot(O[0] - D[0], O[1] - D[1]) };
+      if (out.direct.length || out.transfers.length) break;
+    }
+    out.expanded = out.opts.walk > ladder[0]; return out;
   }
   /* tramo de s0 a s1 hacia adelante (cruza el cierre en circuitos cerrados). Devuelve [[lat,lng],...] */
   function slice(path, s0, s1) {

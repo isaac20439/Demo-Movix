@@ -27,4 +27,13 @@ const lp = P.prepare(P.fromGeoJSON(loop)); assert.ok(lp[0].closed, 'debe detecta
 r = P.plan(lp, { lat: 11.0101, lng: -74.78 }, { lat: 10.9899, lng: -74.80 });   // sur-este->norte-este... destino atrás en el trazado
 assert.strictEqual(r.direct.length, 1, 'directo con vuelta'); assert.ok(r.direct[0].ride > 250);
 const sl = P.slice(lp[0], r.direct[0].sO, r.direct[0].sD); assert.ok(sl.length >= 3, 'tramo debe cruzar el cierre');
+// 7) prefiere el punto MÁS CERCANO: circuito con dos tramos paralelos (ida y vuelta separadas ~1,1 km)
+const rect = { type: 'FeatureCollection', features: [{ type: 'Feature', properties: { codigo: 'CIRC-2' },
+  geometry: { type: 'LineString', coordinates: [[-74.84,10.99],[-74.78,10.99],[-74.78,11.00],[-74.84,11.00],[-74.84,10.99]] } }] };
+const rp = P.prepare(P.fromGeoJSON(rect));
+r = P.plan(rp, { lat: 10.9904, lng: -74.83 }, { lat: 10.9904, lng: -74.79 });     // origen a ~45 m del tramo sur (va al este)
+assert.ok(r.direct.length === 1 && r.direct[0].walkO < 100, 'debe usar el punto cercano, no el lejano: ' + (r.direct[0] && r.direct[0].walkO));
+// 8) amplía la caminata si a 600 m no hay nada
+r = P.plan(rp, { lat: 10.9815, lng: -74.83 }, { lat: 10.9815, lng: -74.79 });     // ~1 km al sur de la ruta
+assert.ok(r.direct.length === 1 && r.expanded && r.opts.walk > 600, 'debe ampliar la búsqueda');
 console.log('PLANNER_TESTS_OK');

@@ -103,6 +103,20 @@ a{color:var(--terracota-texto)}.chev{color:var(--texto-suave)}
 .acc>summary::-webkit-details-marker{display:none}.acc>summary::after{content:"▾";font:16px var(--ui);transition:transform .15s}.acc[open]>summary::after{transform:rotate(180deg)}
 .acc>*:not(summary){margin-top:0}.acc[open]{padding-bottom:12px}.acc p{margin:6px 0;font-size:15px;line-height:1.5}
 @media (min-width:900px){.tog{display:none}#sheet .handle{display:none}.d-map{height:340px}}
+
+/* ---- Ficha que sí se desliza; hoja flotante arrastrable estilo Google Maps ---- */
+.screen[data-screen=detalle]>#detail-content{display:flex;flex-direction:column;flex:1;min-height:0;width:100%;overflow:hidden}
+.d-body{min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.steps ol{margin:8px 0 2px;padding-left:20px;font-size:15px;line-height:1.5}.steps li{margin-bottom:5px}
+.res-head{top:0;margin:0 0 6px;padding:4px 0 8px;touch-action:none;cursor:grab}
+.handle{touch-action:none}
+@media (max-width:899px){
+ #sheet{position:absolute;left:0;right:0;bottom:0;z-index:6;width:auto}
+ #sheet.planning{display:flex;flex-direction:column;overflow:hidden;padding:8px 0 0;max-height:none;height:46%}
+ #sheet.planning #plan-results{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 16px 24px}
+ #sheet.planning .handle{display:block;flex:none;width:44px;height:6px;margin:4px auto 6px;background:#b9ada0}
+ .screen[data-screen=mapa] .map-actions{bottom:calc(var(--sheet-h,0px) + 14px);transition:bottom .22s ease}
+}
   </style>
 </head>
 <body>

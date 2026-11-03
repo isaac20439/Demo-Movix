@@ -84,7 +84,7 @@
   }
   function redraw() { clearFg(); markPoints(); const pts = [S.from, S.to].filter(Boolean).map(p => [p.lat, p.lng]); if (pts.length === 1 && M.kind === 'leaflet') window.movixMap.setView(pts[0], 15); else if (pts.length === 2 && !S.res) fit(pts); }
   function howto() { return '<div class="howto" style="background:var(--blanco);border:1px solid var(--gris);border-radius:15px;padding:14px;margin:0 0 12px"><b>Cómo planear tu viaje</b><ol><li>Elige tu <b>origen</b>: escribe un lugar, usa el GPS (⌖) o mantén presionado el mapa.</li><li>Elige tu <b>destino</b> de la misma forma.</li><li>Pulsa <b>Buscar rutas</b> y toca una opción para verla en el mapa.</li></ol><p class="muted" style="margin:8px 0 0">Solo usa trazados oficiales del AMB. Los puntos de abordaje no están verificados.</p></div>'; }
-  function msg(t, err) { const r = $('plan-results'); if (!r) return; r.innerHTML = t ? `<div class="banner${err ? ' error' : ''}" style="margin:0 0 10px">${t}</div>` : howto(); $('sheet').classList.toggle('planning', !!t); }
+  function msg(t, err) { const r = $('plan-results'); if (!r) return; r.innerHTML = t ? `<div class="banner${err ? ' error' : ''}" style="margin:0 0 10px">${t}</div>` : howto(); $('sheet').classList.toggle('planning', !!t); if (t) setSheet('mid'); else resetSheet(); }
   async function nominatim(q) {
     const c = new AbortController(), t = setTimeout(() => c.abort(), 9000);
     try {
@@ -126,6 +126,51 @@
     if (!S.paths) { const r = $('plan-results'); r.innerHTML = noGeo(); $('sheet').classList.add('planning'); $('load-test').onclick = () => setTest(true); return; }
     S.res = P.plan(S.paths, S.from, S.to, {}); clearFg(); markPoints(); render(S.res);
   }
+  /* ---------- hoja inferior arrastrable (como Google Maps) ---------- */
+  const sheet = $('sheet'), mq = window.matchMedia('(max-width:899px)'), scr = document.querySelector('.screen[data-screen="mapa"]');
+  const SH = () => { const H = sheet.parentElement.clientHeight; return { peek: 96, mid: Math.round(H * .46), full: H - 70 }; };
+  function setSheet(st, anim) {
+    if (!mq.matches) { sheet.style.height = ''; scr.style.setProperty('--sheet-h', '0px'); return; }
+    const h = SH()[st]; S.sst = st; sheet.style.transition = anim === false ? 'none' : 'height .22s ease'; sheet.style.height = h + 'px'; scr.style.setProperty('--sheet-h', h + 'px');
+    if (M.kind === 'leaflet') setTimeout(() => window.movixMap.invalidateSize(), 250);
+  }
+  function resetSheet() { sheet.style.height = ''; sheet.style.transition = ''; scr.style.setProperty('--sheet-h', '0px'); }
+  let drag = null;
+  sheet.addEventListener('pointerdown', e => {
+    if (!mq.matches || !sheet.classList.contains('planning') || !e.target.closest('.handle,.res-head')) return;
+    drag = { y: e.clientY, h: sheet.getBoundingClientRect().height, t: Date.now(), moved: false }; sheet.setPointerCapture(e.pointerId); sheet.style.transition = 'none';
+  });
+  sheet.addEventListener('pointermove', e => {
+    if (!drag) return; const H = sheet.parentElement.clientHeight, dy = drag.y - e.clientY; if (Math.abs(dy) > 5) drag.moved = true;
+    const nh = Math.max(80, Math.min(H - 70, drag.h + dy)); sheet.style.height = nh + 'px'; scr.style.setProperty('--sheet-h', nh + 'px');
+  });
+  const endDrag = e => {
+    if (!drag) return; const hs = SH(), cur = sheet.getBoundingClientRect().height, dy = drag.y - e.clientY, v = dy / Math.max(1, Date.now() - drag.t), order = ['peek', 'mid', 'full'], was = S.sst || 'mid', moved = drag.moved; drag = null;
+    let to = order.reduce((a, k) => Math.abs(hs[k] - cur) < Math.abs(hs[a] - cur) ? k : a, 'peek');
+    if (!moved) to = was === 'peek' ? 'mid' : was === 'mid' ? 'full' : 'mid';
+    else if (to === was && Math.abs(v) > .6) to = order[Math.max(0, Math.min(2, order.indexOf(was) + (v > 0 ? 1 : -1)))];
+    setSheet(to);
+  };
+  sheet.addEventListener('pointerup', endDrag); sheet.addEventListener('pointercancel', endDrag);
+  window.addEventListener('resize', () => { if (sheet.classList.contains('planning')) setSheet(S.sst || 'mid', false); else resetSheet(); });
+
+  /* ---------- caminata por las calles (ruta a pie de OpenStreetMap) ---------- */
+  const WALK = 'https://routing.openstreetmap.de/routed-foot/route/v1/foot/', walkCache = new Map();
+  function walkRoute(a, b) { // a, b: [lat, lng]
+    const k = a.map(v => v.toFixed(5)) + '|' + b.map(v => v.toFixed(5)); if (walkCache.has(k)) return walkCache.get(k);
+    const pr = (async () => {
+      const c = new AbortController(), t = setTimeout(() => c.abort(), 9000);
+      try {
+        const r = await fetch(`${WALK}${a[1]},${a[0]};${b[1]},${b[0]}?overview=full&geometries=geojson`, { signal: c.signal }); if (!r.ok) throw 0;
+        const rt = ((await r.json()).routes || [])[0]; if (!rt) throw 0;
+        return { ok: true, dist: rt.distance, ll: [a].concat(rt.geometry.coordinates.map(q => [q[1], q[0]]), [b]) };
+      } catch (e) { walkCache.delete(k); const A = P.toXY(a[0], a[1]), B = P.toXY(b[0], b[1]); return { ok: false, dist: Math.hypot(A[0] - B[0], A[1] - B[1]), ll: [a, b] }; }
+      finally { clearTimeout(t); }
+    })();
+    walkCache.set(k, pr); return pr;
+  }
+  window.MovixWalk = walkRoute;
+
   /* ---------- resultados ---------- */
   function title(path) {
     const c = catalog(path.route.id), nm = c && (c.publicName || c.destination);
@@ -135,60 +180,63 @@
     const t = title(path); return `<b>${esc(t.name !== t.code ? t.name : 'Ruta ' + t.code)}</b><span>${esc(t.code)} · ${esc(t.op)}</span>`;
   }
   function moreHtml(path) {
-    const c = catalog(path.route.id), t = title(path);
+    const c = catalog(path.route.id), t = title(path), named = t.name !== t.code;
     const al = c && c.aliases && c.aliases.length ? `<p><b>Sectores que menciona el AMB:</b> ${c.aliases.map(esc).join(', ')}.</p>` : '';
-    const named = t.name !== t.code; return `<div class="opt-more"><p><b>Cómo reconocerlo:</b> ${named ? esc(t.name) + ' · código ' + esc(t.code) : 'por su código <b>' + esc(t.code) + '</b>'} (${esc(t.op)}).</p>${al}<p class="muted">${named ? 'Nombre publicado por el AMB; no se confirma que sea el letrero del bus.' : 'El AMB no publica un nombre para esta ruta.'} Ante la duda, pregunta al conductor.</p><button class="primary" data-ficha="${esc(c ? c.id : path.route.id)}" data-op="${esc(c ? c.operator : '')}">Ver información de la ruta</button></div>`;
+    return `<div class="opt-more"><p><b>Cómo reconocerlo:</b> ${named ? esc(t.name) + ' · código ' + esc(t.code) : 'por su código <b>' + esc(t.code) + '</b>'} (${esc(t.op)}).</p>${al}<p class="muted">${named ? 'Nombre publicado por el AMB; no se confirma que sea el letrero del bus.' : 'El AMB no publica un nombre para esta ruta.'} Ante la duda, pregunta al conductor.</p><button class="primary" data-ficha="${esc(c ? c.id : path.route.id)}" data-op="${esc(c ? c.operator : '')}">Ver información de ${esc(t.code)}</button></div>`;
   }
-  const head = txt => `<div class="res-head"><b>${txt}</b><button class="tog" aria-expanded="true" aria-label="Ocultar o mostrar los resultados"><span class="tl">Ocultar</span> <span aria-hidden="true">▾</span></button></div>`;
-  function setCollapsed(c) {
-    $('sheet').classList.toggle('collapsed', c); const b = document.querySelector('#plan-results .tog');
-    if (b) { b.setAttribute('aria-expanded', String(!c)); b.querySelector('.tl').textContent = c ? 'Mostrar' : 'Ocultar'; }
+  function stepsHtml(x) {
+    const a = title(x.a.path), b = title(x.b.path), nm = t => t.name !== t.code ? t.name : 'Ruta ' + t.code;
+    return `<div class="opt-more steps"><ol><li>Camina hasta el recorrido y <b>sube a ${esc(nm(a))}</b> (${esc(a.code)}).</li><li><b>Bájate</b> en el punto «Baja (transbordo)» del mapa.</li><li>Camina un poco y <b>sube a ${esc(nm(b))}</b> (${esc(b.code)}).</li><li><b>Bájate</b> en «Baja aquí» y camina hasta tu destino.</li></ol></div>`;
   }
+  const head = txt => `<div class="res-head"><b>${txt}</b></div>`;
+  const wTxt = (m, ok) => (ok ? '' : '≈') + fmt(m);
   function render(res) {
     const r = $('plan-results'), test = S.test ? '<div class="banner error" style="margin:0 0 10px"><b>DATOS DE PRUEBA.</b> Estas rutas no existen.</div>' : '';
-    const D = res.direct, T = res.transfers, n = D.length;
-    let h = head(n ? n + (n === 1 ? ' bus directo' : ' buses directos') : 'Sin bus directo') + test;
-    h += D.map((x, i) => `<div class="opt" data-k="d${i}"><div class="opt-main" role="button" tabindex="0" data-k="d${i}"><div class="item-main">${legHtml(x.path)}<span class="walk">Camina ${fmt(x.walkO)} · viaja ~${fmt(x.ride)} · camina ${fmt(x.walkD)}</span></div><span class="chev">›</span></div>${moreHtml(x.path)}</div>`).join('');
-    if (!n) h += '<p class="muted">' + (!res.nearO ? 'Ningún trazado publicado pasa a menos de ' + fmt(res.opts.walk) + ' de tu <b>origen</b>.' : !res.nearD ? 'Ningún trazado publicado pasa a menos de ' + fmt(res.opts.walk) + ' de tu <b>destino</b>.' : 'Hay ' + res.nearO + ' trazados cerca del origen y ' + res.nearD + ' cerca del destino, pero ninguno los une en su sentido de circulación.') + ' Prueba mover algún punto.</p>';
-    const tr = T.map((x, i) => `<div class="opt" data-k="t${i}"><div class="opt-main" role="button" tabindex="0" data-k="t${i}"><div class="item-main">${legHtml(x.a.path)}<span>luego</span>${legHtml(x.b.path)}<span class="walk">Camina ${fmt(x.walkO)} · transbordo a ${fmt(x.walkT)} · camina ${fmt(x.walkD)}</span></div><span class="chev">›</span></div>${moreHtml(x.a.path)}${moreHtml(x.b.path)}</div>`).join('');
-    if (!T.length) h += '<div class="section">Sin opciones con transbordo</div>';
-    else if (!n) h += `<div class="section">Con 1 transbordo</div>${tr}`;
-    else h += `<details class="more-opts"><summary>Ver ${T.length} ${T.length === 1 ? 'opción' : 'opciones'} con 1 transbordo</summary>${tr}</details>`;
-    h += '<p class="muted"><span class="lg bus"></span> línea continua: recorrido del bus · <span class="lg walk"></span> línea discontinua: a pie. Puedes subir al bus en cualquier punto de su recorrido, en un lugar seguro donde pueda detenerse; “Sube aquí” es el punto del recorrido más cercano a ti. Confirma el sentido de la vía antes de esperar. Los trazados son del KMZ oficial del AMB (' + S.routes.length + ' publicados) y pueden no ser la versión operativa más reciente. Distancias en línea recta; sin tiempos ni posición de buses.</p>';
-    r.innerHTML = h; $('sheet').classList.add('planning'); $('trip').classList.add('compact'); setCollapsed(false);
+    const D = res.direct, T = res.transfers.slice(0, 5), n = D.length, ext = res.expanded ? `<p class="muted" style="margin:0 0 8px">No hay rutas a menos de 600 m, así que se amplió la búsqueda a ${fmt(res.opts.walk)} a pie.</p>` : '';
+    let h = head(n ? n + (n === 1 ? ' bus directo' : ' buses directos') : T.length ? 'Sin bus directo · opciones con transbordo' : 'Sin rutas') + test + ext;
+    h += D.map((x, i) => `<div class="opt" data-k="d${i}"><div class="opt-main" role="button" tabindex="0" data-k="d${i}"><div class="item-main">${legHtml(x.path)}<span class="walk">Camina ≈${fmt(x.walkO)} · viaja ~${fmt(x.ride)} · camina ≈${fmt(x.walkD)}</span></div><span class="chev">›</span></div>${moreHtml(x.path)}</div>`).join('');
+    if (!n && !T.length) h += '<p class="muted">' + (!res.nearO ? 'Ningún trazado publicado pasa a menos de ' + fmt(res.opts.walk) + ' de tu <b>origen</b>.' : !res.nearD ? 'Ningún trazado publicado pasa a menos de ' + fmt(res.opts.walk) + ' de tu <b>destino</b>.' : 'Hay ' + res.nearO + ' trazados cerca del origen y ' + res.nearD + ' cerca del destino, pero ninguno los une.') + ' Prueba mover algún punto.</p>';
+    if (T.length) h += `<div class="section">${n ? 'Con 1 transbordo' : 'Sube a un bus, bájate y toma otro'}</div>` + T.map((x, i) => `<div class="opt" data-k="t${i}"><div class="opt-main" role="button" tabindex="0" data-k="t${i}"><div class="item-main">${legHtml(x.a.path)}<span>luego, en el transbordo</span>${legHtml(x.b.path)}<span class="walk">Camina ≈${fmt(x.walkO)} · cambio a ≈${fmt(x.walkT)} · camina ≈${fmt(x.walkD)}</span></div><span class="chev">›</span></div>${stepsHtml(x)}${moreHtml(x.a.path)}${moreHtml(x.b.path)}</div>`).join('');
+    h += '<p class="muted"><span class="lg bus"></span> línea continua: recorrido del bus · <span class="lg walk"></span> línea discontinua: a pie por las calles. Puedes subir al bus en cualquier punto de su recorrido, en un lugar seguro donde pueda detenerse; “Sube aquí” es el punto del recorrido más cercano a ti. Confirma el sentido de la vía antes de esperar. Trazados del KMZ oficial del AMB (' + S.routes.length + ' publicados), que pueden no ser la versión operativa más reciente. “≈” = distancia en línea recta hasta que se calcule la caminata. Sin tiempos ni posición de buses.</p>';
+    r.innerHTML = h; r.scrollTop = 0; sheet.classList.add('planning'); $('trip').classList.add('compact'); setSheet('mid');
     if (D[0]) show('d0'); else if (T[0]) show('t0'); else fit([[S.from.lat, S.from.lng], [S.to.lat, S.to.lng]]);
   }
   function show(k) {
-    const res = S.res, i = +k.slice(1), isD = k[0] === 'd', x = isD ? res.direct[i] : res.transfers[i]; S.sel = k;
+    const res = S.res, i = +k.slice(1), isD = k[0] === 'd', x = isD ? res.direct[i] : res.transfers[i]; S.sel = k; const tok = S.wt = (S.wt || 0) + 1;
     $('plan-results').querySelectorAll('.opt').forEach(b => b.classList.toggle('on', b.dataset.k === k));
     const legs = isD ? [[x.path, x.sO, x.sD, '#B5654A']] : [[x.a.path, x.a.s0, x.a.s1, '#B5654A'], [x.b.path, x.b.s0, x.b.s1, '#356355']];
     const slices = legs.map(l => P.slice(l[0], l[1], l[2])), all = [[S.from.lat, S.from.lng], [S.to.lat, S.to.lng]].concat(...slices);
     if (M.kind === 'svg') fit(all);
     clearFg();
-    const ll = o => P.toLL(o.x, o.y), walk = (a, b) => line([a, b], { color: '#2E2A26', w: 4, dash: '2 9' });
+    const ll = o => P.toLL(o.x, o.y);
     legs.forEach((l, j) => { line(P.slice(l[0], 0, l[0].length), { color: l[3], w: 3, op: .4 }); line(slices[j], { color: l[3], w: 6 }); });
-    if (isD) { const a = ll(x.board), b = ll(x.alight);
-      walk([S.from.lat, S.from.lng], a); walk(b, [S.to.lat, S.to.lng]);
+    let pairs;
+    if (isD) { const a = ll(x.board), b = ll(x.alight); pairs = [[[S.from.lat, S.from.lng], a, 'wo'], [b, [S.to.lat, S.to.lng], 'wd']];
       dot(a[0], a[1], { color: '#D9A24B', r: 7, label: 'Sube aquí' }); dot(b[0], b[1], { color: '#356355', r: 7, label: 'Baja aquí' }); }
-    else { const a = ll(x.a.board), t = ll(x.a.leave), tb = ll(x.b.board), b = ll(x.b.alight);
-      walk([S.from.lat, S.from.lng], a); walk(t, tb); walk(b, [S.to.lat, S.to.lng]);
+    else { const a = ll(x.a.board), t = ll(x.a.leave), tb = ll(x.b.board), b = ll(x.b.alight); pairs = [[[S.from.lat, S.from.lng], a, 'wo'], [t, tb, 'wt'], [b, [S.to.lat, S.to.lng], 'wd']];
       dot(a[0], a[1], { color: '#D9A24B', r: 7, label: 'Sube aquí' }); dot(t[0], t[1], { color: '#2E2A26', r: 7, label: 'Baja (transbordo)' }); dot(tb[0], tb[1], { color: '#2E2A26', r: 7, label: 'Sube al 2.º bus' }); dot(b[0], b[1], { color: '#356355', r: 7, label: 'Baja aquí' }); }
     markPoints(); if (M.kind === 'leaflet') fit(all);
+    Promise.all(pairs.map(p => walkRoute(p[0], p[1]))).then(rs => {
+      if (tok !== S.wt) return; let bad = false;
+      rs.forEach((w, j) => { line(w.ll, { color: '#2E2A26', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 }); if (!w.ok) bad = true; x[pairs[j][2] + 'R'] = w.dist; });
+      const el = $('plan-results').querySelector(`.opt[data-k="${k}"] .walk`);
+      if (el && !bad) el.textContent = isD ? `Camina ${fmt(x.woR)} · viaja ~${fmt(x.ride)} · camina ${fmt(x.wdR)}` : `Camina ${fmt(x.woR)} · cambio a ${fmt(x.wtR)} · camina ${fmt(x.wdR)}`;
+      const nb = $('plan-results').querySelector('.walk-warn'); if (nb) nb.remove();
+      if (bad) $('plan-results').querySelector('.res-head').insertAdjacentHTML('afterend', '<div class="banner error walk-warn" style="margin:0 0 8px">No se pudo calcular el camino a pie por las calles (sin conexión con el servicio de rutas a pie). La línea punteada es solo una aproximación en línea recta.</div>');
+    });
   }
   const pl = $('plan-results');
   pl?.addEventListener('click', e => {
-    if (e.target.closest('.tog')) return setCollapsed(!$('sheet').classList.contains('collapsed'));
     const f = e.target.closest('[data-ficha]'); if (f) return window.showDetail(f.dataset.ficha, f.dataset.op || undefined);
     const b = e.target.closest('.opt-main'); if (b) show(b.dataset.k);
   });
   pl?.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('opt-main')) { e.preventDefault(); show(e.target.dataset.k); } });
-  document.querySelector('#sheet .handle')?.addEventListener('click', () => { if ($('sheet').classList.contains('planning')) setCollapsed(!$('sheet').classList.contains('collapsed')); });
 
   /* ---------- ficha completa de la ruta (con mapa del recorrido completo) ---------- */
   function mkView(host) {
     if (window.L) {
       host.innerHTML = ''; if (S.dmap) { try { S.dmap.remove(); } catch (e) {} }
-      const m = L.map(host, { scrollWheelZoom: false }); S.dmap = m;
+      const m = L.map(host, { scrollWheelZoom: false, dragging: !L.Browser.mobile, tap: false }); S.dmap = m;
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(m); const g = L.layerGroup().addTo(m);
       return { line: (ll, o) => L.polyline(ll, { color: o.color, weight: o.w, opacity: o.op || 1, dashArray: o.dash || null, lineCap: 'round' }).addTo(g),
         dot: (la, lo, o) => L.circleMarker([la, lo], { radius: o.r || 7, color: '#fff', weight: 3, fillColor: o.color, fillOpacity: 1 }).bindTooltip(o.label || '', { permanent: !!o.label, direction: 'top' }).addTo(g),
@@ -227,11 +275,11 @@
     setTimeout(() => {
       const v = mkView($('d-map')), full = P.slice(gp, 0, gp.length), all = full.slice();
       v.line(full, { color: '#A5573D', w: 4, op: trip ? .55 : .95 });
-      if (trip) { const ll = o => P.toLL(o.x, o.y), walk = (a, b) => v.line([a, b], { color: '#2E2A26', w: 4, dash: '2 9' }), x = trip.x, F = [S.from.lat, S.from.lng], T = [S.to.lat, S.to.lng];
-        if (trip.kind === 'd') { const a = ll(x.board), b = ll(x.alight); v.line(P.slice(x.path, x.sO, x.sD), { color: '#7A3A26', w: 7 }); walk(F, a); walk(b, T);
+      if (trip) { const ll = o => P.toLL(o.x, o.y), x = trip.x, F = [S.from.lat, S.from.lng], T = [S.to.lat, S.to.lng];
+        if (trip.kind === 'd') { const a = ll(x.board), b = ll(x.alight); v.line(P.slice(x.path, x.sO, x.sD), { color: '#7A3A26', w: 7 }); const ws = [[F, a], [b, T]]; Promise.all(ws.map(q => walkRoute(q[0], q[1]))).then(rs => rs.forEach(w => v.line(w.ll, { color: '#2E2A26', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
           v.dot(F[0], F[1], { color: '#B5654A', label: 'Origen' }); v.dot(T[0], T[1], { color: '#2E2A26', label: 'Destino' }); v.dot(a[0], a[1], { color: '#D9A24B', label: 'Sube aquí' }); v.dot(b[0], b[1], { color: '#356355', label: 'Baja aquí' }); all.push(F, T, a, b); }
         else { const a = ll(x.a.board), t = ll(x.a.leave), tb = ll(x.b.board), b = ll(x.b.alight);
-          v.line(P.slice(x.a.path, x.a.s0, x.a.s1), { color: '#7A3A26', w: 7 }); v.line(P.slice(x.b.path, x.b.s0, x.b.s1), { color: '#356355', w: 7 }); walk(F, a); walk(t, tb); walk(b, T);
+          v.line(P.slice(x.a.path, x.a.s0, x.a.s1), { color: '#7A3A26', w: 7 }); v.line(P.slice(x.b.path, x.b.s0, x.b.s1), { color: '#356355', w: 7 }); [[F, a], [t, tb], [b, T]].forEach(q => walkRoute(q[0], q[1]).then(w => v.line(w.ll, { color: '#2E2A26', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
           v.dot(F[0], F[1], { color: '#B5654A', label: 'Origen' }); v.dot(T[0], T[1], { color: '#2E2A26', label: 'Destino' }); all.push(F, T, a, b, t, tb); } }
       v.fit(all);
     }, 80);
@@ -287,7 +335,7 @@
   $('to')?.addEventListener('focus', () => { S.focus = 'to'; });
   $('from-gps')?.addEventListener('click', () => { S.focus = 'from'; gps(); });
   $('swap')?.addEventListener('click', () => { const a = S.from, b = S.to; S.from = b; S.to = a; $('from').value = b ? b.label : ''; $('to').value = a ? a.label : ''; redraw(); if (S.from && S.to) runPlan(); });
-  $('clear-plan')?.addEventListener('click', () => { $('trip').classList.remove('compact'); S.from = S.to = S.res = null; $('from').value = $('to').value = ''; clearFg(); msg(''); $('sheet').classList.remove('planning'); });
+  $('clear-plan')?.addEventListener('click', () => { $('trip').classList.remove('compact'); S.from = S.to = S.res = null; $('from').value = $('to').value = ''; clearFg(); msg(''); $('sheet').classList.remove('planning'); resetSheet(); });
   $('plan-btn')?.addEventListener('click', async () => {
     for (const w of ['from', 'to']) { if (!S[w] && $(w).value.trim().length > 2) { try { const r = await nominatim($(w).value + ', Barranquilla'); if (r[0]) S[w] = r[0]; } catch { return msg('No se pudo consultar el buscador de direcciones. Elige los puntos con GPS o mantén presionado el mapa.', true); } } }
     if (!S.from || !S.to) return msg('Indica origen y destino (escribe un lugar, usa el GPS o mantén presionado el mapa).', true);

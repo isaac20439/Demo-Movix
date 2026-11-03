@@ -86,3 +86,12 @@
 - Más: las secciones son plegables.
 - Emparejamiento de códigos corregido: rutas del catálogo con sufijo (p. ej. «C12-4169 A») ahora encuentran su trazado («C12-4169») y su nombre publicado.
 - Contraste revisado también en la ficha: 0 textos bajo 4,5:1.
+
+## Tercera ronda (hoja estilo Google Maps, caminata por calles) — 31 de octubre de 2026
+
+- Corregido: la ficha de ruta no se podía deslizar en celular (su contenedor no tenía altura limitada). Ahora baja completa. El mini mapa de la ficha no captura el deslizado con un dedo en celulares (se acerca con +/− o con pellizco).
+- Se quitó el botón «Ocultar». La hoja de resultados se arrastra como en Google Maps con 3 posiciones (mínima, media y completa); un toque en la barra también la cambia. Flota sobre el mapa y los botones flotantes suben con ella.
+- Caminata por las calles: se calcula con el servicio de rutas a pie de OpenStreetMap (routing.openstreetmap.de, perfil «foot») y se dibuja con línea discontinua; las distancias a pie se actualizan con la caminata real. Si el servicio no responde, se muestra una línea recta aproximada y un aviso (sin conexión no se puede comprobar aquí).
+- Motor: se prioriza caminar poco (peso 6) para no mandar al usuario a un punto lejano cuando hay otro más cercano; si no hay rutas a 600 m a pie, se amplía a 1000 y 1500 m; se descartan recorridos en bus absurdamente largos frente a la distancia en línea recta.
+- Con transbordo: ahora se muestran siempre (hasta 5), con pasos «sube a… bájate aquí… sube a…».
+- Pruebas nuevas del motor: punto más cercano y ampliación de la caminata.
