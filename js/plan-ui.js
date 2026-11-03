@@ -345,5 +345,7 @@
   window.MovixGeo = { latlngs: id => { const q = geoFor(id); return q ? P.slice(q, 0, q.length) : null; } };
   (function () { const sc = document.querySelector('[data-screen="mas"] .scroll'); if (!sc) return; let cur = null;
     [...sc.children].forEach(el => { if (el.classList.contains('section')) { cur = document.createElement('details'); cur.className = 'acc'; const sm = document.createElement('summary'); sm.textContent = el.textContent; cur.appendChild(sm); sc.insertBefore(cur, el); el.remove(); } else if (cur) cur.appendChild(el); }); })();
+  (function () { const v = $('app-version'); if (v) v.textContent += ' · planificador 31-oct-2026 (v5)';
+    if ('serviceWorker' in navigator) { const had = !!navigator.serviceWorker.controller; navigator.serviceWorker.addEventListener('controllerchange', () => { if (had && !window.__rl) { window.__rl = 1; location.reload(); } }); } })();
   msg(''); mapInit(); companies(); loadGeo().then(() => { if (S.status !== 'ok') geoBadge(); });
 })();

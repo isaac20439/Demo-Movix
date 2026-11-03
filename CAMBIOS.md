@@ -95,3 +95,9 @@
 - Motor: se prioriza caminar poco (peso 6) para no mandar al usuario a un punto lejano cuando hay otro más cercano; si no hay rutas a 600 m a pie, se amplía a 1000 y 1500 m; se descartan recorridos en bus absurdamente largos frente a la distancia en línea recta.
 - Con transbordo: ahora se muestran siempre (hasta 5), con pasos «sube a… bájate aquí… sube a…».
 - Pruebas nuevas del motor: punto más cercano y ampliación de la caminata.
+
+## Corrección del service worker (v5) — 31 de octubre de 2026
+
+- Causa de que el sitio "no cambiara" tras subir versiones nuevas: `sw.js` servía los archivos SIEMPRE desde la caché guardada del teléfono (caché primero) y no borraba cachés viejas, y su nombre de caché no cambió entre versiones. El teléfono seguía mostrando la versión anterior.
+- Ahora el service worker usa red primero (siempre la versión nueva) y la caché solo sin conexión, borra cachés antiguas al activarse y no intercepta mapas ni servicios externos. La página se recarga sola cuando se instala una versión nueva.
+- Etiqueta de versión en Más → «Acerca de Movix»: «Versión: página 31-oct-2026 (v5) · planificador 31-oct-2026 (v5)». Si falta alguna mitad, ese archivo (index.html o js/plan-ui.js) no se actualizó.
