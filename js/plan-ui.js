@@ -6,6 +6,8 @@
   const S = { routes: null, paths: null, status: 'loading', test: false, from: null, to: null, res: null, focus: 'to', t: 0 };
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const fmt = m => m >= 1000 ? (m / 1000).toFixed(1).replace('.', ',') + ' km' : Math.round(m / 10) * 10 + ' m';
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim(), V = () => css('--vivo'), V2 = () => css('--vivo2'), VO = () => css('--vivo-osc');
+  const ACENTOS = { original: ['Original', '#A5573D'], lila: ['Lila', '#7C3AED'], verde: ['Verde', '#0C8044'], amarillo: ['Amarillo', '#FFC21A'] };
   const OR = () => (typeof OFFICIAL_ROUTES !== 'undefined' ? OFFICIAL_ROUTES : []), OSRC = () => (typeof OPERATOR_SOURCES !== 'undefined' ? OPERATOR_SOURCES : []);
   const nid = P.normId, SUF = /^[A-Z]{1,2}$/;
   const catalog = gid => { const g = nid(gid), L = OR().filter(r => r.system === 'TPC AMB'); return L.find(r => nid(r.id) === g) || L.find(r => { const c = nid(r.id); return c.startsWith(g) && SUF.test(c.slice(g.length)); }); };
@@ -62,7 +64,7 @@
       M.box = [x0 - px, -(y1 + py), x1 - x0 + 2 * px, y1 - y0 + 2 * py]; M.svg.setAttribute('viewBox', M.box.join(' ')); }
   }
   function markPoints() {
-    if (S.from) dot(S.from.lat, S.from.lng, { color: '#B5654A', label: 'Origen', perm: true });
+    if (S.from) dot(S.from.lat, S.from.lng, { color: V(), label: 'Origen', perm: true });
     if (S.to) dot(S.to.lat, S.to.lng, { color: '#2E2A26', label: 'Destino', perm: true });
   }
 
@@ -204,12 +206,12 @@
   function show(k) {
     const res = S.res, i = +k.slice(1), isD = k[0] === 'd', x = isD ? res.direct[i] : res.transfers[i]; S.sel = k; const tok = S.wt = (S.wt || 0) + 1;
     $('plan-results').querySelectorAll('.opt').forEach(b => b.classList.toggle('on', b.dataset.k === k));
-    const legs = isD ? [[x.path, x.sO, x.sD, '#B5654A']] : [[x.a.path, x.a.s0, x.a.s1, '#B5654A'], [x.b.path, x.b.s0, x.b.s1, '#356355']];
+    const legs = isD ? [[x.path, x.sO, x.sD, V()]] : [[x.a.path, x.a.s0, x.a.s1, V()], [x.b.path, x.b.s0, x.b.s1, V2()]];
     const slices = legs.map(l => P.slice(l[0], l[1], l[2])), all = [[S.from.lat, S.from.lng], [S.to.lat, S.to.lng]].concat(...slices);
     if (M.kind === 'svg') fit(all);
     clearFg();
     const ll = o => P.toLL(o.x, o.y);
-    legs.forEach((l, j) => { line(P.slice(l[0], 0, l[0].length), { color: l[3], w: 3, op: .4 }); line(slices[j], { color: l[3], w: 6 }); });
+    legs.forEach((l, j) => { line(P.slice(l[0], 0, l[0].length), { color: l[3], w: 3, op: .4 }); line(slices[j], { color: '#2E2A26', w: 11, op: .85 }); line(slices[j], { color: l[3], w: 7 }); });
     let pairs;
     if (isD) { const a = ll(x.board), b = ll(x.alight); pairs = [[[S.from.lat, S.from.lng], a, 'wo'], [b, [S.to.lat, S.to.lng], 'wd']];
       dot(a[0], a[1], { color: '#D9A24B', r: 7, label: 'Sube aquí' }); dot(b[0], b[1], { color: '#356355', r: 7, label: 'Baja aquí' }); }
@@ -274,13 +276,13 @@
     if (!gp) return;
     setTimeout(() => {
       const v = mkView($('d-map')), full = P.slice(gp, 0, gp.length), all = full.slice();
-      v.line(full, { color: '#A5573D', w: 4, op: trip ? .55 : .95 });
+      v.line(full, { color: '#2E2A26', w: 8, op: trip ? .45 : .8 }); v.line(full, { color: V(), w: 5, op: trip ? .7 : 1 });
       if (trip) { const ll = o => P.toLL(o.x, o.y), x = trip.x, F = [S.from.lat, S.from.lng], T = [S.to.lat, S.to.lng];
-        if (trip.kind === 'd') { const a = ll(x.board), b = ll(x.alight); v.line(P.slice(x.path, x.sO, x.sD), { color: '#7A3A26', w: 7 }); const ws = [[F, a], [b, T]]; Promise.all(ws.map(q => walkRoute(q[0], q[1]))).then(rs => rs.forEach(w => v.line(w.ll, { color: '#2E2A26', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
-          v.dot(F[0], F[1], { color: '#B5654A', label: 'Origen' }); v.dot(T[0], T[1], { color: '#2E2A26', label: 'Destino' }); v.dot(a[0], a[1], { color: '#D9A24B', label: 'Sube aquí' }); v.dot(b[0], b[1], { color: '#356355', label: 'Baja aquí' }); all.push(F, T, a, b); }
+        if (trip.kind === 'd') { const a = ll(x.board), b = ll(x.alight); v.line(P.slice(x.path, x.sO, x.sD), { color: '#2E2A26', w: 11 }); v.line(P.slice(x.path, x.sO, x.sD), { color: VO(), w: 7 }); const ws = [[F, a], [b, T]]; Promise.all(ws.map(q => walkRoute(q[0], q[1]))).then(rs => rs.forEach(w => v.line(w.ll, { color: '#2E2A26', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
+          v.dot(F[0], F[1], { color: V(), label: 'Origen' }); v.dot(T[0], T[1], { color: '#2E2A26', label: 'Destino' }); v.dot(a[0], a[1], { color: '#D9A24B', label: 'Sube aquí' }); v.dot(b[0], b[1], { color: '#356355', label: 'Baja aquí' }); all.push(F, T, a, b); }
         else { const a = ll(x.a.board), t = ll(x.a.leave), tb = ll(x.b.board), b = ll(x.b.alight);
-          v.line(P.slice(x.a.path, x.a.s0, x.a.s1), { color: '#7A3A26', w: 7 }); v.line(P.slice(x.b.path, x.b.s0, x.b.s1), { color: '#356355', w: 7 }); [[F, a], [t, tb], [b, T]].forEach(q => walkRoute(q[0], q[1]).then(w => v.line(w.ll, { color: '#2E2A26', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
-          v.dot(F[0], F[1], { color: '#B5654A', label: 'Origen' }); v.dot(T[0], T[1], { color: '#2E2A26', label: 'Destino' }); all.push(F, T, a, b, t, tb); } }
+          [[x.a.path, x.a.s0, x.a.s1, VO()], [x.b.path, x.b.s0, x.b.s1, V2()]].forEach(q => { v.line(P.slice(q[0], q[1], q[2]), { color: '#2E2A26', w: 11 }); v.line(P.slice(q[0], q[1], q[2]), { color: q[3], w: 7 }); }); [[F, a], [t, tb], [b, T]].forEach(q => walkRoute(q[0], q[1]).then(w => v.line(w.ll, { color: '#2E2A26', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
+          v.dot(F[0], F[1], { color: V(), label: 'Origen' }); v.dot(T[0], T[1], { color: '#2E2A26', label: 'Destino' }); all.push(F, T, a, b, t, tb); } }
       v.fit(all);
     }, 80);
   };
@@ -345,7 +347,18 @@
   window.MovixGeo = { latlngs: id => { const q = geoFor(id); return q ? P.slice(q, 0, q.length) : null; } };
   (function () { const sc = document.querySelector('[data-screen="mas"] .scroll'); if (!sc) return; let cur = null;
     [...sc.children].forEach(el => { if (el.classList.contains('section')) { cur = document.createElement('details'); cur.className = 'acc'; const sm = document.createElement('summary'); sm.textContent = el.textContent; cur.appendChild(sm); sc.insertBefore(cur, el); el.remove(); } else if (cur) cur.appendChild(el); }); })();
-  (function () { const v = $('app-version'); if (v) v.textContent += ' · planificador 31-oct-2026 (v5)';
+  (function () { const v = $('app-version'); if (v) v.textContent += ' · planificador 06-nov-2026 (v6)';
     if ('serviceWorker' in navigator) { const had = !!navigator.serviceWorker.controller; navigator.serviceWorker.addEventListener('controllerchange', () => { if (had && !window.__rl) { window.__rl = 1; location.reload(); } }); } })();
+  function setAcento(a, save) {
+    if (!ACENTOS[a]) a = 'lila'; document.documentElement.dataset.acento = a;
+    if (save !== false) { try { localStorage.setItem('movix.acento', a); } catch (e) {} }
+    document.querySelectorAll('#acentos .chip').forEach(b => { const on = b.dataset.a === a; b.classList.toggle('sel', on); b.setAttribute('aria-checked', on); });
+    if (S.res && S.sel && S.from && S.to) show(S.sel);
+  }
+  (function () { const box = $('acentos'); if (!box) return;
+    box.innerHTML = Object.keys(ACENTOS).map(k => `<button class="chip" role="radio" data-a="${k}"><span class="sw" style="background:${ACENTOS[k][1]}"></span>${ACENTOS[k][0]}</button>`).join('');
+    box.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) setAcento(b.dataset.a); });
+    let a = null; try { a = new URLSearchParams(location.search).get('acento') || localStorage.getItem('movix.acento'); } catch (e) {}
+    setAcento(ACENTOS[a] ? a : 'lila', !!(a && ACENTOS[a])); })();
   msg(''); mapInit(); companies(); loadGeo().then(() => { if (S.status !== 'ok') geoBadge(); });
 })();

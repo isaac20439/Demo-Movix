@@ -101,3 +101,11 @@
 - Causa de que el sitio "no cambiara" tras subir versiones nuevas: `sw.js` servía los archivos SIEMPRE desde la caché guardada del teléfono (caché primero) y no borraba cachés viejas, y su nombre de caché no cambió entre versiones. El teléfono seguía mostrando la versión anterior.
 - Ahora el service worker usa red primero (siempre la versión nueva) y la caché solo sin conexión, borra cachés antiguas al activarse y no intercepta mapas ni servicios externos. La página se recarga sola cuando se instala una versión nueva.
 - Etiqueta de versión en Más → «Acerca de Movix»: «Versión: página 31-oct-2026 (v5) · planificador 31-oct-2026 (v5)». Si falta alguna mitad, ese archivo (index.html o js/plan-ui.js) no se actualizó.
+
+## Color vivo de acento (revisión del profesor) — 6 de noviembre de 2026
+
+- Se añadió un color vivo de acento para romper lo «plano» de la interfaz. Se pueden comparar tres temas (más el original) en **Más → Apariencia**, o con `?acento=lila|verde|amarillo|original` en la dirección. La elección se guarda en el dispositivo. Por defecto: lila.
+- Dónde se usa: botones principales y flotantes, pestaña activa, borde del panel de viaje, resultado seleccionado, cabecera y código de la ficha, subrayado de títulos, y el recorrido del bus en el mapa (con contorno oscuro para que el amarillo se vea sobre el mapa claro).
+- Tokens nuevos: `--vivo`, `--vivo-sobre`, `--vivo-tinte`, `--vivo-texto`, `--vivo-osc`, `--vivo2`. Lila `#7C3AED`, verde `#0C8044`, amarillo `#FFC21A` (texto oscuro sobre el amarillo).
+- Contraste verificado por auditoría automática en los 4 temas (Mapa, Rutas, Más y ficha): 0 textos bajo 4,5:1. Texto blanco sobre lila 5,7:1 y sobre verde 5,0:1; texto oscuro sobre amarillo 8,8:1.
+- Versión v6 (service worker y etiqueta en Más).
