@@ -109,3 +109,10 @@
 - Tokens nuevos: `--vivo`, `--vivo-sobre`, `--vivo-tinte`, `--vivo-texto`, `--vivo-osc`, `--vivo2`. Lila `#7C3AED`, verde `#0C8044`, amarillo `#FFC21A` (texto oscuro sobre el amarillo).
 - Contraste verificado por auditoría automática en los 4 temas (Mapa, Rutas, Más y ficha): 0 textos bajo 4,5:1. Texto blanco sobre lila 5,7:1 y sobre verde 5,0:1; texto oscuro sobre amarillo 8,8:1.
 - Versión v6 (service worker y etiqueta en Más).
+
+## Paleta viva (v7) — 6 de noviembre de 2026
+
+- Se conserva la misma paleta de marca pero pasa de tonos apagados a tonos más saturados y con más contraste: Carbón #2E2A26→#1F1A17, Terracota #B5654A→#C73E1D, Ocre #D9A24B→#F2A900, Salvia #6E9B8C→#0B8460, Hueso #F7F2EC→#FBF6EE, Gris cálido #E6DDD3→#D8CBBB. Texto sobre fondo claro: #0A6048 (verde) y #A8320C (rojo); botones con texto blanco (5,1:1).
+- Se eliminó el selector de temas lila / verde / amarillo (descartado). El resto de la interfaz queda igual a la versión anterior.
+- Revisión automática de contraste en celular y computador (Mapa con ruta seleccionada, ficha, Más abierto y Rutas): 0 textos bajo 4,5:1.
+- Versión v7 (service worker y etiqueta en Más).
