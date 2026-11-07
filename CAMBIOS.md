@@ -116,3 +116,12 @@
 - Se eliminó el selector de temas lila / verde / amarillo (descartado). El resto de la interfaz queda igual a la versión anterior.
 - Revisión automática de contraste en celular y computador (Mapa con ruta seleccionada, ficha, Más abierto y Rutas): 0 textos bajo 4,5:1.
 - Versión v7 (service worker y etiqueta en Más).
+
+## Modo claro y modo oscuro (v8) — 6 de noviembre de 2026
+
+- «Más → Apariencia» ahora ofrece **Claro** (la paleta viva de la v7) y **Oscuro**. Se guarda en el dispositivo y también funciona con `?tema=oscuro`. Es igual en celular y computador: mismas funciones, solo cambia la disposición (hoja inferior en celular, panel lateral en computador).
+- Modo oscuro: fondo #14100E, superficies #221C19, texto #F3EBE2, acentos más claros (#FF6B3D terracota, #2FD6A3 verde, #FFC233 ocre); el mapa de Leaflet se oscurece con un filtro; la caminata y los contornos cambian de color para verse en ambos modos.
+- Corregido: los tonos con transparencia (sombras, banners, pestaña activa) habían quedado con la paleta anterior; ahora usan la paleta viva.
+- Contraste revisado en ambos modos, en celular y computador (Mapa con ruta seleccionada, ficha, Más y Rutas): 0 textos bajo 4,5:1.
+- Auto-actualización: la página consulta `version.json` y, si cambió, borra copias viejas guardadas y se recarga una vez.
+- Versión v8 (service worker, etiqueta en Más y `version.json`).

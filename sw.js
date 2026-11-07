@@ -1,5 +1,5 @@
 // Movix service worker v5: primero la RED (siempre la versión nueva) y la caché solo si no hay conexión.
-const CACHE = 'movix-official-v7';
+const CACHE = 'movix-official-v8';
 const ASSETS = ['./', './index.html', './data/routes.js', './data/operator-sources.js', './data/route-enrichment.js', './data/planner.js', './js/plan-ui.js', './manifest.webmanifest', './movix-icon.svg'];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));

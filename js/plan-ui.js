@@ -6,7 +6,7 @@
   const S = { routes: null, paths: null, status: 'loading', test: false, from: null, to: null, res: null, focus: 'to', t: 0 };
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const fmt = m => m >= 1000 ? (m / 1000).toFixed(1).replace('.', ',') + ' km' : Math.round(m / 10) * 10 + ' m';
-  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim(), V = () => css('--vivo'), V2 = () => css('--vivo2'), VO = () => css('--vivo-osc');
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim(), CT = () => css('--contorno'), CA = () => css('--caminata'), V = () => css('--vivo'), V2 = () => css('--vivo2'), VO = () => css('--vivo-osc');
   const OR = () => (typeof OFFICIAL_ROUTES !== 'undefined' ? OFFICIAL_ROUTES : []), OSRC = () => (typeof OPERATOR_SOURCES !== 'undefined' ? OPERATOR_SOURCES : []);
   const nid = P.normId, SUF = /^[A-Z]{1,2}$/;
   const catalog = gid => { const g = nid(gid), L = OR().filter(r => r.system === 'TPC AMB'); return L.find(r => nid(r.id) === g) || L.find(r => { const c = nid(r.id); return c.startsWith(g) && SUF.test(c.slice(g.length)); }); };
@@ -21,7 +21,7 @@
       M.kind = 'leaflet'; M.group = L.layerGroup().addTo(window.movixMap);
       window.movixMap.on('contextmenu', e => pickMenu(e.latlng.lat, e.latlng.lng, e.containerPoint.x, e.containerPoint.y));
     } else {
-      M.kind = 'svg'; host.innerHTML = '<svg id="svgmap" role="img" aria-label="Mapa esquemático sin teselas" xmlns="http://www.w3.org/2000/svg"><rect id="svgbg" fill="#FBF6EE"/><g id="bgl"></g><g id="fgl"></g></svg>';
+      M.kind = 'svg'; host.innerHTML = '<svg id="svgmap" role="img" aria-label="Mapa esquemático sin teselas" xmlns="http://www.w3.org/2000/svg"><rect id="svgbg" style="fill:var(--hueso)"/><g id="bgl"></g><g id="fgl"></g></svg>';
       M.svg = $('svgmap'); M.bg = $('bgl'); M.fg = $('fgl'); setView(null);
       host.insertAdjacentHTML('beforeend', '<div id="svg-note" class="svg-note"><b>El mapa de calles no se puede cargar aquí.</b><br>Esta vista previa bloquea los mapas externos. En tu propio sitio con HTTPS verás las calles de OpenStreetMap. Toca el lienzo para elegir origen o destino.</div>');
       M.svg.addEventListener('click', e => {
@@ -44,7 +44,7 @@
   function drawBackground() {
     if (M.kind !== 'svg') return; M.bg.innerHTML = '';
     if (!S.paths) return; setView(S.paths); const n = document.getElementById('svg-note'); if (n) n.style.display = 'none';
-    S.paths.forEach(p => M.bg.appendChild(svgEl('polyline', { points: p.pts.map(q => q[0] + ',' + -q[1]).join(' '), fill: 'none', stroke: '#9A8A78', 'stroke-width': 1.4, 'vector-effect': 'non-scaling-stroke', opacity: .55 })));
+    S.paths.forEach(p => M.bg.appendChild(svgEl('polyline', { points: p.pts.map(q => q[0] + ',' + -q[1]).join(' '), fill: 'none', stroke: css('--texto-suave'), 'stroke-width': 1.4, 'vector-effect': 'non-scaling-stroke', opacity: .55 })));
   }
   function clearFg() { if (M.kind === 'leaflet') M.group.clearLayers(); else if (M.fg) M.fg.innerHTML = ''; }
   function line(ll, o) {
@@ -54,7 +54,7 @@
   function dot(lat, lng, o) {
     if (M.kind === 'leaflet') L.circleMarker([lat, lng], { radius: o.r || 8, color: '#fff', weight: 3, fillColor: o.color, fillOpacity: 1 }).bindTooltip(o.label || '', { permanent: !!o.perm, direction: 'top' }).addTo(M.group);
     else { const x = P.toXY(lat, lng), u = M.box[2] / 900; M.fg.appendChild(svgEl('circle', { cx: x[0], cy: -x[1], r: (o.r || 8) * u, fill: o.color, stroke: '#fff', 'stroke-width': 3 * u }));
-      if (o.label) { const t = svgEl('text', { x: x[0] + 12 * u, y: -x[1] - 10 * u, 'font-size': 13 * u, fill: '#1F1A17', 'font-family': 'Inter,system-ui,sans-serif', 'font-weight': 700, stroke: '#FBF6EE', 'stroke-width': 3 * u, 'paint-order': 'stroke' }); t.textContent = o.label; M.fg.appendChild(t); } }
+      if (o.label) { const t = svgEl('text', { x: x[0] + 12 * u, y: -x[1] - 10 * u, 'font-size': 13 * u, fill: css('--carbon'), 'font-family': 'Inter,system-ui,sans-serif', 'font-weight': 700, stroke: css('--hueso'), 'stroke-width': 3 * u, 'paint-order': 'stroke' }); t.textContent = o.label; M.fg.appendChild(t); } }
   }
   function fit(lls) {
     if (!lls.length) return;
@@ -64,7 +64,7 @@
   }
   function markPoints() {
     if (S.from) dot(S.from.lat, S.from.lng, { color: V(), label: 'Origen', perm: true });
-    if (S.to) dot(S.to.lat, S.to.lng, { color: '#1F1A17', label: 'Destino', perm: true });
+    if (S.to) dot(S.to.lat, S.to.lng, { color: CA(), label: 'Destino', perm: true });
   }
 
   /* ---------- elegir punto en el mapa (clic derecho / mantener presionado / toque en el lienzo) ---------- */
@@ -210,16 +210,16 @@
     if (M.kind === 'svg') fit(all);
     clearFg();
     const ll = o => P.toLL(o.x, o.y);
-    legs.forEach((l, j) => { line(P.slice(l[0], 0, l[0].length), { color: l[3], w: 3, op: .4 }); line(slices[j], { color: '#1F1A17', w: 11, op: .85 }); line(slices[j], { color: l[3], w: 7 }); });
+    legs.forEach((l, j) => { line(P.slice(l[0], 0, l[0].length), { color: l[3], w: 3, op: .4 }); line(slices[j], { color: CT(), w: 11, op: .85 }); line(slices[j], { color: l[3], w: 7 }); });
     let pairs;
     if (isD) { const a = ll(x.board), b = ll(x.alight); pairs = [[[S.from.lat, S.from.lng], a, 'wo'], [b, [S.to.lat, S.to.lng], 'wd']];
       dot(a[0], a[1], { color: '#F2A900', r: 7, label: 'Sube aquí' }); dot(b[0], b[1], { color: '#0B8460', r: 7, label: 'Baja aquí' }); }
     else { const a = ll(x.a.board), t = ll(x.a.leave), tb = ll(x.b.board), b = ll(x.b.alight); pairs = [[[S.from.lat, S.from.lng], a, 'wo'], [t, tb, 'wt'], [b, [S.to.lat, S.to.lng], 'wd']];
-      dot(a[0], a[1], { color: '#F2A900', r: 7, label: 'Sube aquí' }); dot(t[0], t[1], { color: '#1F1A17', r: 7, label: 'Baja (transbordo)' }); dot(tb[0], tb[1], { color: '#1F1A17', r: 7, label: 'Sube al 2.º bus' }); dot(b[0], b[1], { color: '#0B8460', r: 7, label: 'Baja aquí' }); }
+      dot(a[0], a[1], { color: '#F2A900', r: 7, label: 'Sube aquí' }); dot(t[0], t[1], { color: CA(), r: 7, label: 'Baja (transbordo)' }); dot(tb[0], tb[1], { color: CA(), r: 7, label: 'Sube al 2.º bus' }); dot(b[0], b[1], { color: '#0B8460', r: 7, label: 'Baja aquí' }); }
     markPoints(); if (M.kind === 'leaflet') fit(all);
     Promise.all(pairs.map(p => walkRoute(p[0], p[1]))).then(rs => {
       if (tok !== S.wt) return; let bad = false;
-      rs.forEach((w, j) => { line(w.ll, { color: '#1F1A17', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 }); if (!w.ok) bad = true; x[pairs[j][2] + 'R'] = w.dist; });
+      rs.forEach((w, j) => { line(w.ll, { color: CA(), w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 }); if (!w.ok) bad = true; x[pairs[j][2] + 'R'] = w.dist; });
       const el = $('plan-results').querySelector(`.opt[data-k="${k}"] .walk`);
       if (el && !bad) el.textContent = isD ? `Camina ${fmt(x.woR)} · viaja ~${fmt(x.ride)} · camina ${fmt(x.wdR)}` : `Camina ${fmt(x.woR)} · cambio a ${fmt(x.wtR)} · camina ${fmt(x.wdR)}`;
       const nb = $('plan-results').querySelector('.walk-warn'); if (nb) nb.remove();
@@ -243,13 +243,13 @@
         dot: (la, lo, o) => L.circleMarker([la, lo], { radius: o.r || 7, color: '#fff', weight: 3, fillColor: o.color, fillOpacity: 1 }).bindTooltip(o.label || '', { permanent: !!o.label, direction: 'top' }).addTo(g),
         fit: lls => { m.fitBounds(L.latLngBounds(lls), { padding: [24, 24] }); setTimeout(() => m.invalidateSize(), 150); } };
     }
-    host.innerHTML = '<svg role="img" aria-label="Mapa esquemático del recorrido" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;background:#FBF6EE"></svg>';
+    host.innerHTML = '<svg role="img" aria-label="Mapa esquemático del recorrido" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;background:var(--hueso)"></svg>';
     const svg = host.firstChild, dots = [], add = (t, a) => { const e = svgEl(t, a); svg.appendChild(e); return e; };
     return { line: (ll, o) => add('polyline', { points: ll.map(q => { const p = P.toXY(q[0], q[1]); return p[0] + ',' + -p[1]; }).join(' '), fill: 'none', stroke: o.color, 'stroke-width': o.w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': o.dash || '', opacity: o.op || 1, 'vector-effect': 'non-scaling-stroke' }),
       dot: (la, lo, o) => dots.push([P.toXY(la, lo), o]),
       fit: lls => { const xy = lls.map(q => P.toXY(q[0], q[1])), x0 = Math.min(...xy.map(a => a[0])), x1 = Math.max(...xy.map(a => a[0])), y0 = Math.min(...xy.map(a => a[1])), y1 = Math.max(...xy.map(a => a[1])), px = Math.max(400, (x1 - x0) * .08), py = Math.max(400, (y1 - y0) * .08), b = [x0 - px, -(y1 + py), x1 - x0 + 2 * px, y1 - y0 + 2 * py], u = b[2] / 520;
         svg.setAttribute('viewBox', b.join(' ')); dots.forEach(([p, o]) => { add('circle', { cx: p[0], cy: -p[1], r: (o.r || 7) * u, fill: o.color, stroke: '#fff', 'stroke-width': 3 * u });
-          if (o.label) { const t = add('text', { x: p[0] + 11 * u, y: -p[1] - 9 * u, 'font-size': 12 * u, fill: '#1F1A17', 'font-weight': 700, 'font-family': 'Inter,system-ui,sans-serif', stroke: '#FBF6EE', 'stroke-width': 3 * u, 'paint-order': 'stroke' }); t.textContent = o.label; } }); } };
+          if (o.label) { const t = add('text', { x: p[0] + 11 * u, y: -p[1] - 9 * u, 'font-size': 12 * u, fill: css('--carbon'), 'font-weight': 700, 'font-family': 'Inter,system-ui,sans-serif', stroke: css('--hueso'), 'stroke-width': 3 * u, 'paint-order': 'stroke' }); t.textContent = o.label; } }); } };
   }
   function tripOf(gp) {
     if (!S.res || !S.from || !S.to || S.test) return null;
@@ -257,6 +257,7 @@
     const t = S.res.transfers.find(x => x.a.path.route === gp.route || x.b.path.route === gp.route); return t ? { kind: 't', x: t } : null;
   }
   window.showDetail = function (id, operator) {
+    S.lastDetail = [id, operator];
     const c = OR().find(r => r.id === id && (!operator || r.operator === operator)) || OR().find(r => r.id === id) || catalog(id);
     const gp = geoFor(c ? c.id : id); if (!c && !gp) return;
     const code = c ? c.id : gp.route.id, op = pretty(c ? c.operator : gp.route.operator), sys = c ? c.system : 'TPC AMB';
@@ -275,13 +276,13 @@
     if (!gp) return;
     setTimeout(() => {
       const v = mkView($('d-map')), full = P.slice(gp, 0, gp.length), all = full.slice();
-      v.line(full, { color: '#1F1A17', w: 8, op: trip ? .45 : .8 }); v.line(full, { color: V(), w: 5, op: trip ? .7 : 1 });
+      v.line(full, { color: CT(), w: 8, op: trip ? .45 : .8 }); v.line(full, { color: V(), w: 5, op: trip ? .7 : 1 });
       if (trip) { const ll = o => P.toLL(o.x, o.y), x = trip.x, F = [S.from.lat, S.from.lng], T = [S.to.lat, S.to.lng];
-        if (trip.kind === 'd') { const a = ll(x.board), b = ll(x.alight); v.line(P.slice(x.path, x.sO, x.sD), { color: '#1F1A17', w: 11 }); v.line(P.slice(x.path, x.sO, x.sD), { color: VO(), w: 7 }); const ws = [[F, a], [b, T]]; Promise.all(ws.map(q => walkRoute(q[0], q[1]))).then(rs => rs.forEach(w => v.line(w.ll, { color: '#1F1A17', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
-          v.dot(F[0], F[1], { color: V(), label: 'Origen' }); v.dot(T[0], T[1], { color: '#1F1A17', label: 'Destino' }); v.dot(a[0], a[1], { color: '#F2A900', label: 'Sube aquí' }); v.dot(b[0], b[1], { color: '#0B8460', label: 'Baja aquí' }); all.push(F, T, a, b); }
+        if (trip.kind === 'd') { const a = ll(x.board), b = ll(x.alight); v.line(P.slice(x.path, x.sO, x.sD), { color: CT(), w: 11 }); v.line(P.slice(x.path, x.sO, x.sD), { color: VO(), w: 7 }); const ws = [[F, a], [b, T]]; Promise.all(ws.map(q => walkRoute(q[0], q[1]))).then(rs => rs.forEach(w => v.line(w.ll, { color: CA(), w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
+          v.dot(F[0], F[1], { color: V(), label: 'Origen' }); v.dot(T[0], T[1], { color: CA(), label: 'Destino' }); v.dot(a[0], a[1], { color: '#F2A900', label: 'Sube aquí' }); v.dot(b[0], b[1], { color: '#0B8460', label: 'Baja aquí' }); all.push(F, T, a, b); }
         else { const a = ll(x.a.board), t = ll(x.a.leave), tb = ll(x.b.board), b = ll(x.b.alight);
-          [[x.a.path, x.a.s0, x.a.s1, VO()], [x.b.path, x.b.s0, x.b.s1, V2()]].forEach(q => { v.line(P.slice(q[0], q[1], q[2]), { color: '#1F1A17', w: 11 }); v.line(P.slice(q[0], q[1], q[2]), { color: q[3], w: 7 }); }); [[F, a], [t, tb], [b, T]].forEach(q => walkRoute(q[0], q[1]).then(w => v.line(w.ll, { color: '#1F1A17', w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
-          v.dot(F[0], F[1], { color: V(), label: 'Origen' }); v.dot(T[0], T[1], { color: '#1F1A17', label: 'Destino' }); all.push(F, T, a, b, t, tb); } }
+          [[x.a.path, x.a.s0, x.a.s1, VO()], [x.b.path, x.b.s0, x.b.s1, V2()]].forEach(q => { v.line(P.slice(q[0], q[1], q[2]), { color: CT(), w: 11 }); v.line(P.slice(q[0], q[1], q[2]), { color: q[3], w: 7 }); }); [[F, a], [t, tb], [b, T]].forEach(q => walkRoute(q[0], q[1]).then(w => v.line(w.ll, { color: CA(), w: 4, dash: w.ok ? '2 9' : '6 10', op: w.ok ? 1 : .55 })));
+          v.dot(F[0], F[1], { color: V(), label: 'Origen' }); v.dot(T[0], T[1], { color: CA(), label: 'Destino' }); all.push(F, T, a, b, t, tb); } }
       v.fit(all);
     }, 80);
   };
@@ -346,7 +347,24 @@
   window.MovixGeo = { latlngs: id => { const q = geoFor(id); return q ? P.slice(q, 0, q.length) : null; } };
   (function () { const sc = document.querySelector('[data-screen="mas"] .scroll'); if (!sc) return; let cur = null;
     [...sc.children].forEach(el => { if (el.classList.contains('section')) { cur = document.createElement('details'); cur.className = 'acc'; const sm = document.createElement('summary'); sm.textContent = el.textContent; cur.appendChild(sm); sc.insertBefore(cur, el); el.remove(); } else if (cur) cur.appendChild(el); }); })();
-  (function () { const v = $('app-version'); if (v) v.textContent += ' · planificador 06-nov-2026 (v7)';
+  (function () { const v = $('app-version'); if (v) v.textContent += ' · planificador 06-nov-2026 (v8)';
     if ('serviceWorker' in navigator) { const had = !!navigator.serviceWorker.controller; navigator.serviceWorker.addEventListener('controllerchange', () => { if (had && !window.__rl) { window.__rl = 1; location.reload(); } }); } })();
+  const TEMAS = { claro: 'Claro', oscuro: 'Oscuro' };
+  function setTema(t, save) {
+    if (!TEMAS[t]) t = 'claro'; document.documentElement.dataset.tema = t;
+    if (save !== false) { try { localStorage.setItem('movix.tema', t); } catch (e) {} }
+    const mt = document.querySelector('meta[name="theme-color"]'); if (mt) mt.setAttribute('content', t === 'oscuro' ? '#0B0807' : '#1F1A17');
+    document.querySelectorAll('#temas .chip').forEach(b => { const on = b.dataset.t === t; b.classList.toggle('sel', on); b.setAttribute('aria-checked', on); });
+    if (M.kind === 'svg') drawBackground();
+    if (S.res && S.sel && S.from && S.to) show(S.sel);
+    const dv = document.querySelector('.screen[data-screen="detalle"]'); if (S.lastDetail && dv && dv.classList.contains('active')) window.showDetail(S.lastDetail[0], S.lastDetail[1]);
+  }
+  (function () { const box = $('temas'); if (!box) return;
+    box.innerHTML = Object.keys(TEMAS).map(k => `<button class="chip" role="radio" data-t="${k}"><span class="sw" style="background:${k === 'claro' ? '#FBF6EE' : '#14100E'}"></span>${TEMAS[k]}</button>`).join('');
+    box.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) setTema(b.dataset.t); });
+    try { localStorage.removeItem('movix.acento'); } catch (e) {}
+    setTema(document.documentElement.dataset.tema === 'oscuro' ? 'oscuro' : 'claro', false); })();
+  (async function () { const APP_V = '8'; try { const r = await fetch('version.json', { cache: 'no-store' }); if (!r.ok) return; const v = (await r.json()).v;
+    if (v !== APP_V && !sessionStorage.getItem('mx.rl')) { sessionStorage.setItem('mx.rl', '1'); const rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(x => x.unregister())); for (const k of await caches.keys()) await caches.delete(k); location.reload(); } } catch (e) {} })();
   msg(''); mapInit(); companies(); loadGeo().then(() => { if (S.status !== 'ok') geoBadge(); });
 })();
