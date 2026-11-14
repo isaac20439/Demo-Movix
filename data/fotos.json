@@ -1,0 +1,1228 @@
+{
+  "defecto": {
+    "autor": "pendiente",
+    "licencia": "pendiente"
+  },
+  "empresas": {
+    "alianza-sodis": {
+      "nombre": "ALIANZA-SODIS",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/alianza-sodis/a10-4114-f1-placa-roja-soledad-circunvalar-manga-silencio-calle-84.jpg",
+          "rutas": [
+            "A10-4114 A",
+            "A10-4114 B"
+          ],
+          "etiqueta": "A10 4114 F1 Placa ROJA Soledad Circunvalar Manga Silencio Calle 84",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/a11-4115-f2-placa-verde-soledad-ciudadela-malvinas-villa-carolina.jpg",
+          "rutas": [
+            "A11-4115"
+          ],
+          "etiqueta": "A11 4115 F2 Placa Verde Soledad Ciudadela Malvinas Villa Carolina",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b13-4128-hipodromo-la-paz-villa-carolina-buenavista.jpg",
+          "rutas": [
+            "B13-4128"
+          ],
+          "etiqueta": "B13 4128 Hipódromo LA PAZ Villa Carolina Buenavista",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b13b-soledad-2000-la-paz-villa-carolina-buenavista.jpg",
+          "rutas": [
+            "B13-B-4189"
+          ],
+          "etiqueta": "B13B Soledad 2000 LA PAZ Villa Carolina Buenavista",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b14-4174-soledad-malvinas-villa-carolina-buenavista.jpg",
+          "rutas": [
+            "B14-4174"
+          ],
+          "etiqueta": "B14 4174 Soledad Malvinas Villa Carolina Buenavista",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b15-4129-ruta-1-la-paz-calle-53-olivos.jpg",
+          "rutas": [
+            "B15-4129 A",
+            "B15-4129 B"
+          ],
+          "etiqueta": "B15 4129 RUTA 1 LA PAZ Calle 53 Olivos",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b15-4129-ruta-2-cementerio-sofia-camargo-sourdis.jpg",
+          "rutas": [
+            "B15-4129 A",
+            "B15-4129 B"
+          ],
+          "etiqueta": "B15 4129 RUTA 2 Cementerio Sofía Camargo Sourdis",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b15-4129-ruta-3-la-paz-cordialidad-olivos.jpg",
+          "rutas": [
+            "B15-4129 A",
+            "B15-4129 B"
+          ],
+          "etiqueta": "B15 4129 RUTA 3 LA PAZ Cordialidad Olivos",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b15-4129-villa-san-pablo-caribe-verde-nueva-colombia-andalucia-buenavista.jpg",
+          "rutas": [
+            "B15-4129 A",
+            "B15-4129 B"
+          ],
+          "etiqueta": "B15 4129 Villa SAN Pablo Caribe Verde Nueva Colombia Andalucía Buenavista",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b15b-4129-villa-san-pablo-caribe-verde-nueva-colombia-andalucia-buenavista.jpg",
+          "rutas": [
+            "B15-4129 B"
+          ],
+          "etiqueta": "B15B 4129 Villa SAN Pablo Caribe Verde Nueva Colombia Andalucía Buenavista",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b16-4130-placa-gris-soledad-calle-17-carrera-38-campoalegre-olivos-me-quejo.jpg",
+          "rutas": [
+            "B16-4130"
+          ],
+          "etiqueta": "B16 4130 Placa GRIS Soledad Calle 17 Carrera 38 Campoalegre Olivos ME Quejo",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/b17-4163-circunvalar-makro-buenavista.jpg",
+          "rutas": [
+            "B17-4163"
+          ],
+          "etiqueta": "B17 4163 Circunvalar Makro Buenavista",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/pt1-4101-carrera-38-la-pradera-pinar-del-rio-villas-de-san-pablo.jpg",
+          "rutas": [
+            "PT1-4101"
+          ],
+          "etiqueta": "PT1 4101 Carrera 38 LA Pradera Pinar DEL Río Villas DE SAN Pablo",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/pt1b-carrera-38-campoalegre-la-pradera-juan-mina.jpg",
+          "rutas": [
+            "PT1-4101"
+          ],
+          "etiqueta": "PT1B Carrera 38 Campoalegre LA Pradera JUAN MINA",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/pt1c-placa-negra-kra-38-juan-mina-directo-zona-franca-la-cayena.jpg",
+          "rutas": [
+            "PT1-4101"
+          ],
+          "etiqueta": "PT1C Placa Negra KRA 38 JUAN MINA Directo ZONA Franca LA Cayena",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/1902-soledad-2000-cordialidad-c-universitaria.jpg",
+          "rutas": [],
+          "etiqueta": "1902 Soledad 2000 Cordialidad C.universitaria",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/1902b-soledad-2000-roblesalmendros-cordialidad-ciudadela-universitaria.jpg",
+          "rutas": [],
+          "etiqueta": "1902b Soledad 2000 Roblesalmendros Cordialidad Ciudadela Universitaria",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/munc-barranquilla-tubara-juan-mina-4-bocas.jpg",
+          "rutas": [],
+          "etiqueta": "MUNC Barranquilla Tubara JUAN MINA 4 Bocas",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/alianza-sodis/munc-via-al-mar-cano-dulce-tubara-bajo-de-la-habana.jpg",
+          "rutas": [],
+          "etiqueta": "MUNC Vía AL MAR Caño Dulce Tubará BAJO DE LA Habana",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cooasoatlan": {
+      "nombre": "COOASOATLAN",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/cooasoatlan/c1-4132-almendros-circunvalar-cordialidad-carrera-38-calle-84.jpg",
+          "rutas": [
+            "C1-4132"
+          ],
+          "etiqueta": "C1 4132 Almendros Circunvalar Cordialidad Carrera 38 Calle 84",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cooasoatlan/c1b-villa-karla-tcherassi-carrera-38-calle-84.jpg",
+          "rutas": [
+            "C1-B-4186"
+          ],
+          "etiqueta": "C1B Villa Karla Tcherassi Carrera 38 Calle 84",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cooasoatlan/c20-4181-almendros-calle-30-carrera-14-calle-72-via-40.jpg",
+          "rutas": [
+            "C20-4181"
+          ],
+          "etiqueta": "C20 4181 Almendros Calle 30 Carrera 14 Calle 72 Vía 40",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cooasoatlan/c20b-villa-katanga-tcherassi-carrera-38-calle-72-via-40.jpg",
+          "rutas": [
+            "C20-B-4187"
+          ],
+          "etiqueta": "C20B Villa Katanga Tcherassi Carrera 38 Calle 72 Vía 40",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cootransporcar": {
+      "nombre": "COOTRANSPORCAR",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/cootransporcar/c8-4139-a-rebolo-andes-calle-72-zoologico-villa-tarel.jpg",
+          "rutas": [
+            "C8-4139"
+          ],
+          "etiqueta": "C8 4139 A Rebolo Andes Calle 72 Zoológico Villa Tarel",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootransporcar/c8-4139-b-ruta-variante-rebolo-andes-calle-72-via-40-calle-76-carrera-58.jpg",
+          "rutas": [
+            "C8-4139"
+          ],
+          "etiqueta": "C8 4139 B RUTA Variante Rebolo Andes Calle 72 Vía 40 Calle 76 Carrera 58",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cootrantico": {
+      "nombre": "COOTRANTICO",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/cootrantico/a18-4183-calle-30-carrera-14-estudiantes-los-andes.jpg",
+          "rutas": [
+            "A18-4183"
+          ],
+          "etiqueta": "A18 4183 Calle 30 Carrera 14 Estudiantes LOS Andes",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrantico/b20-4180-ruta-variante-el-golfo-la-pradera.jpg",
+          "rutas": [
+            "B20-4180"
+          ],
+          "etiqueta": "B20 4180 RUTA Variante EL Golfo LA Pradera",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrantico/b4-4120-lucero-san-felipe-sourdis-carcel-del-bosque.jpg",
+          "rutas": [
+            "B4-4120"
+          ],
+          "etiqueta": "B4 4120 Lucero SAN Felipe Sourdis Cárcel DEL Bosque",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrantico/b5-4121-carrera-45-campo-alegre-olivos-me-quejo.jpg",
+          "rutas": [
+            "B5-4121"
+          ],
+          "etiqueta": "B5 4121 Carrera 45 Campo Alegre Olivos ME Quejo",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrantico/b6-4122-carrera-38-cari-nueva-colombia-me-quejo.jpg",
+          "rutas": [
+            "B6-4122"
+          ],
+          "etiqueta": "B6 4122 Carrera 38 CARI Nueva Colombia ME Quejo",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrantico/b6-4122-carrera-45-calle-72-nueva-colombia-caribe-verde.jpg",
+          "rutas": [
+            "B6-4122"
+          ],
+          "etiqueta": "B6 4122 Carrera 45 Calle 72 Nueva Colombia Caribe Verde",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrantico/b7-4123-los-pinos-cari-cordialidad-villa-olimpica-galapa.jpg",
+          "rutas": [
+            "B7-4123"
+          ],
+          "etiqueta": "B7 4123 LOS Pinos CARI Cordialidad Villa Olimpica (galapa)",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrantico/0906-manga-olivos-pradera.jpg",
+          "rutas": [],
+          "etiqueta": "0906 Manga Olivos Pradera",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cootrasol": {
+      "nombre": "COOTRASOL",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/cootrasol/d3-4147-malambo-calle-30-hipodromo-american-bar.jpg",
+          "rutas": [
+            "D3-4147"
+          ],
+          "etiqueta": "D3 4147 Malambo Calle 30 Hipódromo American BAR",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrasol/d4-4148-a-calle-30-mercado-villa-katanga-cedros-villa-angelita.jpg",
+          "rutas": [
+            "D4-4148"
+          ],
+          "etiqueta": "D4 4148 A Calle 30 Mercado Villa Katanga Cedros Villa Angelita",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrasol/d4-4148-b-calle-30-mercado-villa-katanga-villa-merly-normandia.jpg",
+          "rutas": [
+            "D4-4148"
+          ],
+          "etiqueta": "D4 4148 B Calle 30 Mercado Villa Katanga Villa Merly - Normandia",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/cootrasol/d5-4149-malambo-american-bar-simon-bolivar-nieves-centro-boston.jpg",
+          "rutas": [
+            "D5-4149"
+          ],
+          "etiqueta": "D5 4149 Malambo American BAR Simón Bolívar Nieves Centro Boston",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cootratlantico": {
+      "nombre": "COOTRATLANTICO",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/cootratlantico/c10-4142-manuela-beltran-calle-17-nieves-centro.jpg",
+          "rutas": [
+            "C10-4142"
+          ],
+          "etiqueta": "C10 4142 Manuela Beltrán - Calle 17 Nieves Centro",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "flota-angulo": {
+      "nombre": "FLOTA-ANGULO",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/flota-angulo/a7-4112-expreso-porvenir-carrera-43-capri-nogales-colinas-la-pradera.jpg",
+          "rutas": [
+            "A7-4112"
+          ],
+          "etiqueta": "A7 4112 Expreso Porvenir Carrera 43 Capri Nogales Colinas LA Pradera",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "lolaya": {
+      "nombre": "LOLAYA",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/lolaya/b10-4126ruta-1-soledad-andes-villa-carolina-urbaplaya.jpg",
+          "rutas": [
+            "B10-4126"
+          ],
+          "etiqueta": "B10 4126ruta 1 Soledad Andes Villa Carolina Urbaplaya",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/lolaya/b10-4126ruta-2-cordialidad-valle-silencio-u-simon-bolivar.jpg",
+          "rutas": [
+            "B10-4126"
+          ],
+          "etiqueta": "B10 4126ruta 2 Cordialidad Valle Silencio U. Simón Bolívar",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/lolaya/d8-4165-calle-30-calle-72-zoologico.jpg",
+          "rutas": [
+            "D8-4165"
+          ],
+          "etiqueta": "D8 4165 Calle 30 Calle 72 Zoológico",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/lolaya/las-flores-via-40-calle-30-soledad-2000.jpg",
+          "rutas": [],
+          "etiqueta": "Las Flores Vía 40 Calle 30 Soledad 2000",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/lolaya/nocturna-murillo-soledad-2000-kra-46-calle-84.jpg",
+          "rutas": [],
+          "etiqueta": "Nocturna Murillo Soledad 2000 Kra 46 Calle 84",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "transmecar": {
+      "nombre": "TRANSMECAR",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/transmecar/c17-4160-malambo-c30-mercado-k5458-exito-77.jpg",
+          "rutas": [
+            "C17-4160"
+          ],
+          "etiqueta": "C17 4160 Malambo C30 Mercado K5458 Éxito 77",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/transmecar/d10-4172-calle-17-american-bar-malambo-caracoli.jpg",
+          "rutas": [
+            "D10-4172"
+          ],
+          "etiqueta": "D10 4172 Calle 17 American Bar Malambo Caracolí",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/transmecar/d11-4153-malambo-calle-17-cuc-u-simon-bolivar.jpg",
+          "rutas": [
+            "D11-4153"
+          ],
+          "etiqueta": "D11 4153 Malambo Calle 17 CUC U. Simón Bolívar",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/transmecar/d9-4152-calle-17-soledad-2000-la-central-granabastos.jpg",
+          "rutas": [
+            "D9-4152"
+          ],
+          "etiqueta": "D9 4152 Calle 17 Soledad 2000 la Central Granabastos",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "t-atlantico": {
+      "nombre": "T_ATLANTICO",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/transportes-atlantico-lopez-chagin-cia-s-c-a/a13-4162-urbaplaya-elite.jpg",
+          "rutas": [
+            "A13-4162"
+          ],
+          "etiqueta": "A13 4162 Urbaplaya Élite",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "transurbar": {
+      "nombre": "TRANSURBAR",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/transurbar/a14-4116-manuela-beltran-las-palmas-via-40-las-flores.jpg",
+          "rutas": [
+            "A14-4116"
+          ],
+          "etiqueta": "A14 4116 Manuela Beltrán LAS Palmas Vía 40 LAS Flores",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/transurbar/d16-4173-circunvalar-derecho-las-flores-monomeros-soledad-2000.jpg",
+          "rutas": [
+            "D16-4173"
+          ],
+          "etiqueta": "D16 4173 Circunvalar Derecho LAS Flores Monómeros Soledad 2000",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/transurbar/d19-cordialidad-san-martin.jpg",
+          "rutas": [
+            "D19-4184"
+          ],
+          "etiqueta": "D19 Cordialidad SAN Martín",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "trasalfa": {
+      "nombre": "TRASALFA",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets/buses/trasalfa/d14-4156-malambo-calle-30-mercado-via-40-calle-76.jpg",
+          "rutas": [
+            "D14-4156"
+          ],
+          "etiqueta": "D14 4156 Malambo Calle 30 Mercado Vía 40 Calle 76",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets/buses/trasalfa/d15-4157-pimsa-calle-30-olaya-calle-74-paraiso.jpg",
+          "rutas": [
+            "D15-4157"
+          ],
+          "etiqueta": "D15 4157 Pimsa Calle 30 Olaya Calle 74 Paraíso",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "coochofal": {
+      "nombre": "COOCHOFAL",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/coochofal/a15-4159-soledad-2000-carrera-43-calle-84-zoologico.jpg",
+          "rutas": [
+            "A15-4159"
+          ],
+          "etiqueta": "A15 4159 Soledad 2000 Carrera 43 Calle 84 Zoológico",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/a15b-almendros-victoria-carrera-43-calle-84-zoologico.jpg",
+          "rutas": [
+            "A15-4159"
+          ],
+          "etiqueta": "A15B Almendros Victoria -carrera 43 Calle 84 Zoológico",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/c18-4140-circular-7-de-abril-sofia-camargo-catedral-cuc.jpg",
+          "rutas": [
+            "C18-4141"
+          ],
+          "etiqueta": "C18 4140 Circular 7 DE Abril Sofía Camargo Catedral CUC",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/c2-4133-almendros-conidec-campito-calle-30-mercado.jpg",
+          "rutas": [
+            "C2-4133"
+          ],
+          "etiqueta": "C2 4133 Almendros Conidec Campito Calle 30 Mercado",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/c3-4134-los-cedros-los-robles-calle-30-mercado.jpg",
+          "rutas": [
+            "C3-4134"
+          ],
+          "etiqueta": "C3 4134 LOS Cedros LOS Robles Calle 30 Mercado",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/c4-4135-los-robles-7-de-abril-calle-72-via-40.jpg",
+          "rutas": [
+            "C4-4135"
+          ],
+          "etiqueta": "C4 4135 LOS Robles 7 DE Abril Calle 72 Vía 40",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/c9-4141-circular-7-de-abril-carrera-14-calle-30-mercado-cuc.jpg",
+          "rutas": [
+            "C9-4140"
+          ],
+          "etiqueta": "C9 4141 Circular - 7 DE Abril Carrera 14 Calle 30 Mercado CUC",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/301-k20-cordialidad.jpg",
+          "rutas": [],
+          "etiqueta": "301 K20 Cordialidad",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/310-san-luis-santa-maria.jpg",
+          "rutas": [],
+          "etiqueta": "310 SAN LUIS Santa María",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/314-k14-las-americas.jpg",
+          "rutas": [],
+          "etiqueta": "314 K14 LAS Américas",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coochofal/315-k8-carrizal.jpg",
+          "rutas": [],
+          "etiqueta": "315 K8 Carrizal",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "coolitoral": {
+      "nombre": "COOLITORAL",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/coolitoral/a1-4106-carrera-38-silencio-nogales-universidades-villa-carolina-via-40.jpg",
+          "rutas": [
+            "A1-4106 A",
+            "A1-4106 B"
+          ],
+          "etiqueta": "A1 4106 Carrera 38 Silencio Nogales Universidades Villa Carolina VIA 40",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/a2-4107-via-40-villa-carolina-universidades-nogales-silencio-carrera-38.jpg",
+          "rutas": [
+            "A2-4107"
+          ],
+          "etiqueta": "A2 4107 VIA 40 Villa Carolina Universidades Nogales Silencio Carrera 38",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/a3-4108-carrera-43-penita-nogales-carrera-44-centro.jpg",
+          "rutas": [
+            "A3-4108"
+          ],
+          "etiqueta": "A3 4108 Carrera 43 Peñita Nogales Carrera 44 Centro",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/a4-4109-carrera-53-gran-centro-nogales-penita.jpg",
+          "rutas": [
+            "A4-4109"
+          ],
+          "etiqueta": "A4 4109 Carrera 53 GRAN Centro Nogales Peñita",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/b1-4117-via-40-calle-72-silencio-andes-carrera-24.jpg",
+          "rutas": [
+            "B1-4117"
+          ],
+          "etiqueta": "B1 4117 VIA 40 Calle 72 Silencio Andes Carrera 24",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/b2a-4177-manuela-beltran-carrera-21-calle-72-via-40.jpg",
+          "rutas": [
+            "B2A-4177"
+          ],
+          "etiqueta": "B2A 4177 Manuela Beltran Carrera 21 Calle 72 VIA 40",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/b3-4119-centro-pueblo.jpg",
+          "rutas": [
+            "B3-4119"
+          ],
+          "etiqueta": "B3 4119 Centro Pueblo",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/c19-4178-centro-pueblo.jpg",
+          "rutas": [
+            "C19-4178"
+          ],
+          "etiqueta": "C19 4178 Centro Pueblo",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/pt1-4101-a-carrera-38-toboganes-la-pradera-pinar-del-rio-villa-san-pablo.jpg",
+          "rutas": [
+            "PT1-4101"
+          ],
+          "etiqueta": "PT1 4101 A Carrera 38 Toboganes la Pradera Pinar del Rio Villa San Pablo",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/pt1-4101-b-carrera-38-toboganes-la-pradera-juan-mina.jpg",
+          "rutas": [
+            "PT1-4101"
+          ],
+          "etiqueta": "PT1 4101 B Carrera 38 Toboganes la Pradera Juan Mina",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/pt2-4102-soledad-2000-via-40-las-flores-universidades.jpg",
+          "rutas": [
+            "PT2-4102"
+          ],
+          "etiqueta": "PT2 4102 Soledad 2000 VIA 40 LAS Flores Universidades",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/pt3-4103-circunvalar-universidades-las-flores-via-40.jpg",
+          "rutas": [
+            "PT3-4103"
+          ],
+          "etiqueta": "PT3 4103 Circunvalar Universidades LAS Flores VIA 40",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/pt4-4104-ruta-circular-circunvalar-las-flores-via-40.jpg",
+          "rutas": [
+            "PT4-4104"
+          ],
+          "etiqueta": "PT4 4104 RUTA Circular Circunvalar LAS Flores VIA 40",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/coolitoral/pt5-4105-ruta-circular-via-40-las-flores-circunvalar.jpg",
+          "rutas": [
+            "PT5-4105"
+          ],
+          "etiqueta": "PT5 4105 RUTA Circular VIA 40 LAS Flores Circunvalar",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cootrab": {
+      "nombre": "COOTRAB",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/cootrab/c5-4136-arboleda-palmas-cocos-cuc-boston.jpg",
+          "rutas": [
+            "C5-4136"
+          ],
+          "etiqueta": "C5 4136 Arboleda Palmas Cocos CUC Boston",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/cootrab/c6-4137-gaviotas-nieves-cuc-via-40-calle-70-cra-58.jpg",
+          "rutas": [
+            "C6-4137"
+          ],
+          "etiqueta": "C6 4137 Gaviotas Nieves CUC VIA 40 Calle 70 CRA 58",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cootransco": {
+      "nombre": "COOTRANSCO",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/cootransco/c7-4138-el-ferry-c-hermosa-andes-calle-72-paraiso-v-carolina.jpg",
+          "rutas": [
+            "C7-4138"
+          ],
+          "etiqueta": "C7 4138 el Ferry C. Hermosa Andes Calle 72 Paraíso V.carolina",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "cootransnorte": {
+      "nombre": "COOTRANSNORTE",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/cootransnorte/a5-4110-universidades-miramar-cordialidad-san-martin.jpg",
+          "rutas": [
+            "A5-4110"
+          ],
+          "etiqueta": "A5 4110 Universidades Miramar Cordialidad San Martin",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/cootransnorte/a6-4111-la-playa-via-40-cuc-centro.jpg",
+          "rutas": [
+            "A6-4111"
+          ],
+          "etiqueta": "A6 4111 la Playa Via 40 CUC Centro",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "embusa": {
+      "nombre": "EMBUSA",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/embusa/b9-4125-calle-17-palmas-andes-exito-77.jpg",
+          "rutas": [
+            "B9-4125"
+          ],
+          "etiqueta": "B9 4125 Calle 17 Palmas Andes Éxito 77",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "flota-roja": {
+      "nombre": "FLOTA-ROJA",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/flota-roja/a8-4113-simon-bolivar-calle-30-carrera-43-calle-84-zoologico.jpg",
+          "rutas": [
+            "A8-4113"
+          ],
+          "etiqueta": "A8 4113 Simón Bolívar Calle 30 Carrera 43 Calle 84 Zoológico",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "la-carolina": {
+      "nombre": "LA-CAROLINA",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/la-carolina/a16-4161-miramar.jpg",
+          "rutas": [
+            "A16-4161 A",
+            "A16-4161 B"
+          ],
+          "etiqueta": "A16 4161 Miramar",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/la-carolina/d6-4150-calle-30-cuc-base-naval-villa-carolina.jpg",
+          "rutas": [
+            "D6-4150"
+          ],
+          "etiqueta": "D6 4150 Calle 30 CUC BASE Naval Villa Carolina",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/la-carolina/d7-4151-calle-17-base-naval-cuc-villa-carolina.jpg",
+          "rutas": [
+            "D7-4151"
+          ],
+          "etiqueta": "D7 4151 Calle 17 BASE Naval CUC Villa Carolina",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/la-carolina/express.jpg",
+          "rutas": [],
+          "etiqueta": "Express",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "monterrey": {
+      "nombre": "MONTERREY",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/monterrey/b11-4166-7-de-agosto-cbosque-silencio-vcountry.jpg",
+          "rutas": [
+            "B11-4166"
+          ],
+          "etiqueta": "B11 4166 7 de Agosto Cbosque Silencio Vcountry",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/monterrey/b12-4127-bosque-calle-30-mercado-via-40-las-flores.jpg",
+          "rutas": [
+            "B12-4127"
+          ],
+          "etiqueta": "B12 4127 Bosque Calle 30 Mercado Vía 40 las Flores",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/monterrey/b8-4124-santo-domingo-la-manga-campo-alegre-cuc.jpg",
+          "rutas": [
+            "B8-4124"
+          ],
+          "etiqueta": "B8 4124 Santo Domingo la Manga Campo Alegre CUC",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/monterrey/1703-aduanilla-bosque-cordialidad-san-martin-malvinas.jpg",
+          "rutas": [],
+          "etiqueta": "1703 Aduanilla Bosque Cordialidad San Martín Malvinas",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/monterrey/nocturna-murillo-soledad-2000-kra-46-calle-84.jpg",
+          "rutas": [],
+          "etiqueta": "Nocturna Murillo Soledad 2000 Kra 46 Calle 84",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "sobusa": {
+      "nombre": "SOBUSA",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/sobusa/b18-4175-tcherassi-centro-via-40-las-flores-villa-campestre-urbaplaya.jpg",
+          "rutas": [
+            "B18-4175 A",
+            "B18-4175 B"
+          ],
+          "etiqueta": "B18 4175 Tcherassi Centro VIA 40 LAS Flores Villa Campestre Urbaplaya",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/sobusa/c11-4168-granabastos-carrera-1415-silencio-uninorte.jpg",
+          "rutas": [
+            "C11-4168"
+          ],
+          "etiqueta": "C11 4168 Granabastos Carrera 1415 Silencio Uninorte",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/sobusa/c12-4169-vivero-paraiso.jpg",
+          "rutas": [
+            "C12-4169 A",
+            "C12-4169 B"
+          ],
+          "etiqueta": "C12 4169 Vivero Paraiso",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/sobusa/c13-4143-kra-50-paraiso.jpg",
+          "rutas": [
+            "C13-4143"
+          ],
+          "etiqueta": "C13 4143 KRA 50 Paraiso",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/sobusa/c14-4170-kra-54-uninorte.jpg",
+          "rutas": [
+            "C14-4170"
+          ],
+          "etiqueta": "C14 4170 KRA 54 Uninorte",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/sobusa/c16-4167-granabastos-calle-72-uninorte.jpg",
+          "rutas": [
+            "C16-4167 A",
+            "C16-4167 B"
+          ],
+          "etiqueta": "C16 4167 Granabastos Calle 72 Uninorte",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "transoledad": {
+      "nombre": "TRANSOLEDAD",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/transoledad/d13a-4155-hipodromo-inem-salamanca.jpg",
+          "rutas": [
+            "D13-4155"
+          ],
+          "etiqueta": "D13A 4155 Hipódromo INEM Salamanca",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/transoledad/d13b-4155-hipodromo-american-bar-normandia.jpg",
+          "rutas": [
+            "D13-4155"
+          ],
+          "etiqueta": "D13B 4155 Hipódromo American Bar Normandía",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    },
+    "trasalianco": {
+      "nombre": "TRASALIANCO",
+      "autor": "",
+      "licencia": "",
+      "fotos": [
+        {
+          "archivo": "assets2/buses/trasalianco/b19-4176-simon-bolivar.jpg",
+          "rutas": [
+            "B19-4176"
+          ],
+          "etiqueta": "B19 4176 Simón Bolívar",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/trasalianco/d12-4154-placa-roja-malambo-calle-30-prado-carrera-53-calle-76.jpg",
+          "rutas": [
+            "D12-4154"
+          ],
+          "etiqueta": "D12 4154 Placa ROJA Malambo Calle 30 Prado Carrera 53 Calle 76",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/trasalianco/d17-4158-placa-negra-concorde-calle-30-centro-catedral-cuc.jpg",
+          "rutas": [
+            "D17-4158"
+          ],
+          "etiqueta": "D17 4158 Placa Negra Concorde Calle 30 Centro Catedral CUC",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        },
+        {
+          "archivo": "assets2/buses/trasalianco/d18-4179-placa-rojinegra-malambo-simon-bolivar-las-nieves-centro-prado.jpg",
+          "rutas": [
+            "D18-4179"
+          ],
+          "etiqueta": "D18 4179 Placa Rojinegra Malambo Simón Bolívar LAS Nieves Centro Prado",
+          "autor": "",
+          "licencia": "",
+          "nota": ""
+        }
+      ]
+    }
+  }
+}
